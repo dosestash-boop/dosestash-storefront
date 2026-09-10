@@ -5,6 +5,8 @@ import { HeroVisual } from "@/components/hero-visual"
 import { ProductGrid } from "@/components/product-grid"
 import { listProducts } from "@/lib/data/products"
 
+export const revalidate = 60
+
 function BoxIcon({ className }: { className?: string }) {
   return (
     <svg
