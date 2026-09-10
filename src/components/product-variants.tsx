@@ -42,8 +42,9 @@ export function ProductVariants({
       originalAmount > calculatedAmount
   )
   const stock = selectedVariant?.inventory_quantity ?? 0
-  const inStock = stock > 0
-  const lowStock = inStock && stock <= 5
+  const isUnmanaged = selectedVariant?.manage_inventory === false
+  const inStock = isUnmanaged || stock > 0
+  const lowStock = !isUnmanaged && inStock && stock <= 5
 
   const handleAddToCart = () => {
     if (!selectedVariant || !inStock) return

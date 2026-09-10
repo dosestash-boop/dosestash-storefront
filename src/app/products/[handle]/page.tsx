@@ -63,7 +63,7 @@ export default async function ProductPage({ params }: Props) {
           price: priceInfo.minCalculatedPrice,
           priceCurrency: priceInfo.currencyCode.toUpperCase(),
           availability: (product.variants ?? []).some(
-            (v) => (v.inventory_quantity ?? 0) > 0
+            (v) => v.manage_inventory === false || (v.inventory_quantity ?? 0) > 0
           )
             ? "https://schema.org/InStock"
             : "https://schema.org/OutOfStock",
