@@ -35,7 +35,7 @@ export function ProductCard({
           )}
         </div>
         <div className="mt-3 space-y-1">
-          <h3 className="line-clamp-2 text-sm font-medium text-gray-900">
+          <h3 className="line-clamp-2 text-sm font-bold text-gray-900">
             {product.title}
           </h3>
           {priceInfo && (
@@ -51,8 +51,8 @@ export function ProductCard({
               <span
                 className={
                   priceInfo.isOnSale
-                    ? "font-semibold text-red-600"
-                    : "text-gray-700"
+                    ? "font-bold text-red-600"
+                    : "font-medium text-gray-700"
                 }
               >
                 {priceInfo.isRange ? "From " : ""}

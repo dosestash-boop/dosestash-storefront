@@ -3,12 +3,16 @@
 import { useMemo, useState } from "react"
 import type { HttpTypes } from "@medusajs/types"
 import { formatPrice } from "@/lib/format-price"
+import { useCart } from "@/components/cart/cart-context"
 
 export function ProductVariants({
   product,
 }: {
   product: HttpTypes.StoreProduct
 }) {
+  const { addItem, isPending } = useCart()
+  const [justAdded, setJustAdded] = useState(false)
+
   const options = product.options ?? []
   const variants = useMemo(() => product.variants ?? [], [product.variants])
 
@@ -40,6 +44,13 @@ export function ProductVariants({
   const stock = selectedVariant?.inventory_quantity ?? 0
   const inStock = stock > 0
   const lowStock = inStock && stock <= 5
+
+  const handleAddToCart = () => {
+    if (!selectedVariant || !inStock) return
+    addItem(selectedVariant.id, 1)
+    setJustAdded(true)
+    setTimeout(() => setJustAdded(false), 2000)
+  }
 
   return (
     <div>
@@ -113,6 +124,21 @@ export function ProductVariants({
           <span className="text-red-600">Out of stock</span>
         )}
       </p>
+
+      <button
+        type="button"
+        onClick={handleAddToCart}
+        disabled={!selectedVariant || !inStock || isPending}
+        className="mt-4 flex min-h-11 w-full items-center justify-center rounded-md bg-teal px-6 text-sm font-bold text-teal-foreground transition-colors hover:bg-teal/90 disabled:cursor-not-allowed disabled:opacity-40"
+      >
+        {!selectedVariant
+          ? "Select options"
+          : !inStock
+            ? "Out of stock"
+            : justAdded
+              ? "Added"
+              : "Add to Cart"}
+      </button>
     </div>
   )
 }

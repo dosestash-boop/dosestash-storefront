@@ -9,8 +9,8 @@ export function Pagination({
   currentPage: number
   totalPages: number
   basePath: string
-  /** Non-pagination search params to preserve across page links (e.g. category filter) */
-  searchParams?: Record<string, string | undefined>
+  /** Non-pagination search params to preserve across page links (e.g. active filters) */
+  searchParams?: Record<string, string | string[] | undefined>
 }) {
   if (totalPages <= 1) {
     return null
@@ -19,7 +19,11 @@ export function Pagination({
   const hrefForPage = (page: number) => {
     const params = new URLSearchParams()
     for (const [key, value] of Object.entries(searchParams ?? {})) {
-      if (value) params.set(key, value)
+      if (Array.isArray(value)) {
+        for (const v of value) params.append(key, v)
+      } else if (value) {
+        params.set(key, value)
+      }
     }
     if (page > 1) params.set("page", String(page))
     const qs = params.toString()
