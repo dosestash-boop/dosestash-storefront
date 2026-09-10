@@ -107,7 +107,7 @@ export function CategoryDropdown({
       </button>
 
       <div
-        className={`absolute left-0 top-full z-50 pt-3 transition-opacity duration-150 ${
+        className={`absolute left-1/2 top-full z-50 -translate-x-1/2 pt-3 transition-opacity duration-150 ${
           open ? "visible opacity-100" : "invisible opacity-0"
         }`}
       >
