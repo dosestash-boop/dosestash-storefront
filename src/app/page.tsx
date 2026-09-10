@@ -108,7 +108,7 @@ export default async function Home() {
 
   return (
     <div>
-      <div className="mx-auto flex max-w-[380px] flex-col items-center px-4 py-16 text-center sm:max-w-[480px] sm:py-24 lg:max-w-[640px]">
+      <div className="mx-auto flex max-w-7xl flex-col items-center px-4 py-16 text-center sm:px-6 sm:py-24 lg:px-8">
         <div className="flex items-center gap-4">
           <LogoIcon size={72} />
           <Wordmark className="text-[45px] font-medium tracking-tight" />
@@ -130,11 +130,11 @@ export default async function Home() {
           Shop cases
         </Link>
 
-        <div className="mt-10 w-full overflow-hidden rounded-2xl bg-gray-50">
+        <div className="mt-10 w-full max-w-[640px] overflow-hidden rounded-2xl bg-gray-50">
           <HeroVisual className="h-auto w-full" />
         </div>
 
-        <div className="mt-10 grid w-full grid-cols-2 gap-4">
+        <div className="mt-10 grid w-full max-w-[640px] grid-cols-2 gap-4">
           <FeatureCard
             icon={<BoxIcon className="h-6 w-6" />}
             label="Vials & syringes"
@@ -145,7 +145,7 @@ export default async function Home() {
           />
         </div>
 
-        <div className="mt-12 grid w-full grid-cols-3 gap-4 border-t border-gray-100 pt-8">
+        <div className="mt-12 grid w-full max-w-[640px] grid-cols-3 gap-4 border-t border-gray-100 pt-8">
           <ValueProp
             icon={<BoxIcon className="h-5 w-5" />}
             label="Discreet Packaging"
