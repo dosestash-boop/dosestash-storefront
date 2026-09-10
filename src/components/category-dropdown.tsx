@@ -13,6 +13,17 @@ function artForCategory(name: string) {
   )
 }
 
+const GRID_CLASSES_BY_COLUMN_COUNT: Record<number, string> = {
+  1: "w-[210px] grid-cols-1",
+  2: "w-[420px] grid-cols-2",
+  3: "w-[630px] grid-cols-3",
+}
+
+function gridClassForCount(count: number) {
+  const columns = Math.min(count, 3)
+  return GRID_CLASSES_BY_COLUMN_COUNT[columns]
+}
+
 export function CategoryDropdown({
   label,
   categories,
@@ -101,9 +112,7 @@ export function CategoryDropdown({
         }`}
       >
         <div
-          className={`grid gap-3 rounded-2xl border border-gray-100 bg-white p-4 shadow-lg ${
-            categories.length === 1 ? "w-[210px] grid-cols-1" : "w-[420px] grid-cols-2"
-          }`}
+          className={`grid gap-3 rounded-2xl border border-gray-100 bg-white p-4 shadow-lg ${gridClassForCount(categories.length)}`}
         >
           {categories.map((category) => (
             <CategoryTile
