@@ -40,6 +40,38 @@ export async function listProducts({
   return { products, count, region }
 }
 
+const FEATURED_COLLECTION_HANDLE = "featured"
+
+export async function listFeaturedProducts({
+  limit = 4,
+}: {
+  limit?: number
+} = {}): Promise<{
+  products: HttpTypes.StoreProduct[]
+  region: HttpTypes.StoreRegion | null
+}> {
+  const region = await getDefaultRegion()
+
+  const { collections } = await sdk.store.collection.list({
+    handle: FEATURED_COLLECTION_HANDLE,
+  })
+  const featuredCollection = collections[0]
+
+  if (!featuredCollection) {
+    const { products } = await listProducts({ limit })
+    return { products, region }
+  }
+
+  const { products } = await sdk.store.product.list({
+    limit,
+    region_id: region?.id,
+    collection_id: [featuredCollection.id],
+    fields: PRODUCT_FIELDS,
+  })
+
+  return { products, region }
+}
+
 export async function getProductByHandle(handle: string): Promise<{
   product: HttpTypes.StoreProduct | null
   region: HttpTypes.StoreRegion | null

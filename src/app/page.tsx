@@ -2,7 +2,7 @@ import type { ReactNode } from "react"
 import Link from "next/link"
 import { LogoIcon, Wordmark } from "@/components/logo"
 import { ProductGrid } from "@/components/product-grid"
-import { listProducts } from "@/lib/data/products"
+import { listFeaturedProducts } from "@/lib/data/products"
 
 export const revalidate = 60
 
@@ -54,7 +54,7 @@ function FeatureCard({ icon, label }: { icon: ReactNode; label: string }) {
 }
 
 export default async function Home() {
-  const { products } = await listProducts({ limit: 4 })
+  const { products } = await listFeaturedProducts({ limit: 4 })
 
   return (
     <div>
