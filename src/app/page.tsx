@@ -68,7 +68,7 @@ export default async function Home() {
           Neatly stored, easy to find.
         </h1>
 
-        <p className="mx-auto mt-3 max-w-[300px] text-sm text-gray-500">
+        <p className="mx-auto mt-3 max-w-[300px] text-sm text-gray-500 sm:max-w-[440px]">
           Compact, sleek storage for your vials and syringes — built to keep a
           few or a few hundred neatly organized.
         </p>
