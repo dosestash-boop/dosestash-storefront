@@ -4,7 +4,7 @@ import { useEffect } from "react"
 import Image from "next/image"
 import { useCart } from "./cart-context"
 import { formatPrice } from "@/lib/format-price"
-import { ImagePlaceholder } from "@/components/image-placeholder"
+import { ProductArtPlaceholder } from "@/components/product-art-placeholder"
 
 export function CartDrawer() {
   const { cart, isOpen, isPending, closeCart, updateItem, removeItem } =
@@ -105,7 +105,10 @@ export function CartDrawer() {
                       className="h-full w-full object-cover"
                     />
                   ) : (
-                    <ImagePlaceholder className="h-6 w-6" />
+                    <ProductArtPlaceholder
+                      title={item.product_title ?? item.title}
+                      className="p-3"
+                    />
                   )}
                 </div>
 

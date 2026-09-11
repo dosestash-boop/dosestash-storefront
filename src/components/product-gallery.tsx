@@ -3,7 +3,7 @@
 import { useState } from "react"
 import Image from "next/image"
 import type { HttpTypes } from "@medusajs/types"
-import { ImagePlaceholder } from "./image-placeholder"
+import { ProductArtPlaceholder } from "./product-art-placeholder"
 
 export function ProductGallery({
   images,
@@ -18,7 +18,7 @@ export function ProductGallery({
   if (images.length === 0) {
     return (
       <div className="aspect-square w-full rounded-lg bg-gray-100">
-        <ImagePlaceholder className="h-16 w-16" />
+        <ProductArtPlaceholder title={title} className="p-16" />
       </div>
     )
   }
