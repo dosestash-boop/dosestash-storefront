@@ -1,7 +1,6 @@
 import type { ReactNode } from "react"
 import Link from "next/link"
 import { LogoIcon, Wordmark } from "@/components/logo"
-import { HeroVisual } from "@/components/hero-visual"
 import { ProductGrid } from "@/components/product-grid"
 import { listProducts } from "@/lib/data/products"
 
@@ -129,10 +128,6 @@ export default async function Home() {
         >
           Shop cases
         </Link>
-
-        <div className="mt-10 w-full max-w-[640px] overflow-hidden rounded-2xl bg-gray-50">
-          <HeroVisual className="h-auto w-full" />
-        </div>
 
         <div className="mt-10 grid w-full max-w-[640px] grid-cols-2 gap-4">
           <FeatureCard
