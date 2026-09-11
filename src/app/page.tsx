@@ -1,7 +1,7 @@
 import type { ReactNode } from "react"
 import Link from "next/link"
 import { LogoIcon, Wordmark } from "@/components/logo"
-import { ProductGrid } from "@/components/product-grid"
+import { ProductTile } from "@/components/product-tile"
 import { listFeaturedProducts } from "@/lib/data/products"
 
 export const revalidate = 60
@@ -105,7 +105,11 @@ export default async function Home() {
               Shop All
             </Link>
           </div>
-          <ProductGrid products={products} />
+          <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+            {products.map((product) => (
+              <ProductTile key={product.id} product={product} />
+            ))}
+          </div>
         </div>
       )}
     </div>

@@ -3,6 +3,7 @@ import Link from "next/link"
 import type { HttpTypes } from "@medusajs/types"
 import { getProductPriceInfo } from "@/lib/product-price"
 import { formatPrice } from "@/lib/format-price"
+import { ImagePlaceholder } from "./image-placeholder"
 
 export function ProductCard({
   product,
@@ -29,9 +30,7 @@ export function ProductCard({
               className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
             />
           ) : (
-            <div className="flex h-full w-full items-center justify-center text-sm text-gray-400">
-              No image
-            </div>
+            <ImagePlaceholder />
           )}
         </div>
         <div className="mt-3 space-y-1">

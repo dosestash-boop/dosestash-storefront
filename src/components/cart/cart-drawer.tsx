@@ -4,6 +4,7 @@ import { useEffect } from "react"
 import Image from "next/image"
 import { useCart } from "./cart-context"
 import { formatPrice } from "@/lib/format-price"
+import { ImagePlaceholder } from "@/components/image-placeholder"
 
 export function CartDrawer() {
   const { cart, isOpen, isPending, closeCart, updateItem, removeItem } =
@@ -103,7 +104,9 @@ export function CartDrawer() {
                       height={160}
                       className="h-full w-full object-cover"
                     />
-                  ) : null}
+                  ) : (
+                    <ImagePlaceholder className="h-6 w-6" />
+                  )}
                 </div>
 
                 <div className="flex flex-1 flex-col">
