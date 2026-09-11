@@ -58,7 +58,7 @@ export default async function Home() {
 
   return (
     <div>
-      <div className="mx-auto flex max-w-7xl flex-col items-center px-4 py-16 text-center sm:px-6 sm:py-24 lg:px-8">
+      <div className="mx-auto flex max-w-7xl flex-col items-center px-4 py-8 text-center sm:px-6 sm:py-12 lg:px-8">
         <div className="flex items-center gap-4">
           <LogoIcon size={72} />
           <Wordmark className="text-[45px] font-medium tracking-tight" />
