@@ -44,60 +44,11 @@ function StackIcon({ className }: { className?: string }) {
   )
 }
 
-function TruckIcon({ className }: { className?: string }) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={1.5}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className={className}
-      aria-hidden="true"
-    >
-      <path d="M2 6h11v10H2z" />
-      <path d="M13 10h4l4 3.5V16h-8z" />
-      <circle cx="6.5" cy="18" r="1.75" />
-      <circle cx="17.5" cy="18" r="1.75" />
-    </svg>
-  )
-}
-
-function RefreshIcon({ className }: { className?: string }) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={1.5}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className={className}
-      aria-hidden="true"
-    >
-      <path d="M4 4v5h5" />
-      <path d="M20 20v-5h-5" />
-      <path d="M4.5 15a8 8 0 0 0 14.5 3.5" />
-      <path d="M19.5 9A8 8 0 0 0 5 5.5" />
-    </svg>
-  )
-}
-
 function FeatureCard({ icon, label }: { icon: ReactNode; label: string }) {
   return (
     <div className="flex flex-col items-center gap-2 rounded-xl bg-gray-50 px-4 py-6 text-center">
       <span className="text-teal">{icon}</span>
       <span className="text-sm font-medium text-gray-900">{label}</span>
-    </div>
-  )
-}
-
-function ValueProp({ icon, label }: { icon: ReactNode; label: string }) {
-  return (
-    <div className="flex flex-col items-center gap-2 text-center">
-      <span className="text-teal">{icon}</span>
-      <span className="text-xs font-medium text-gray-600">{label}</span>
     </div>
   )
 }
@@ -137,21 +88,6 @@ export default async function Home() {
           <FeatureCard
             icon={<StackIcon className="h-6 w-6" />}
             label="Scales with your supply"
-          />
-        </div>
-
-        <div className="mt-12 grid w-full max-w-[640px] grid-cols-3 gap-4 border-t border-gray-100 pt-8">
-          <ValueProp
-            icon={<BoxIcon className="h-5 w-5" />}
-            label="Discreet Packaging"
-          />
-          <ValueProp
-            icon={<TruckIcon className="h-5 w-5" />}
-            label="Fast Shipping"
-          />
-          <ValueProp
-            icon={<RefreshIcon className="h-5 w-5" />}
-            label="Easy Returns"
           />
         </div>
       </div>
