@@ -62,7 +62,7 @@ export async function ProductListing({
   return (
     <div>
       <div className="mb-10">
-        <HeadingTag className="text-3xl font-bold tracking-tight text-gray-900">
+        <HeadingTag className="font-heading text-3xl font-medium tracking-tight text-gray-900">
           {heading ?? (activeCategory ? activeCategory.name : "Shop All")}
         </HeadingTag>
         <p className="mt-2 text-sm text-gray-500">

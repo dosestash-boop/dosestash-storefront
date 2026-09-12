@@ -102,7 +102,7 @@ export default async function ProductPage({ params }: Props) {
         <ProductGallery images={product.images ?? []} title={product.title} />
 
         <div>
-          <h1 className="text-3xl font-bold tracking-tight text-gray-900">
+          <h1 className="font-heading text-3xl font-medium tracking-tight text-gray-900">
             {product.title}
           </h1>
           {product.subtitle && (
@@ -128,7 +128,7 @@ export default async function ProductPage({ params }: Props) {
 
       {related.length > 0 && (
         <section className="mt-16 border-t border-gray-100 pt-10">
-          <h2 className="mb-6 text-2xl font-bold tracking-tight text-gray-900">
+          <h2 className="font-heading mb-6 text-2xl font-medium tracking-tight text-gray-900">
             You May Also Like
           </h2>
           <ProductGrid products={related.slice(0, 4)} />
