@@ -1,17 +1,36 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-  --teal: #0e8c93;
-  --teal-foreground: #e4f6f7;
+  --background: #f8f6f1;
+  --foreground: #1e2420;
+
+  --accent: #3b4a63;
+  --accent-foreground: #fbfaf7;
+  --accent-soft: #d8dee7;
+  --surface: #fbfaf7;
+
+  /* Warm neutral scale replacing Tailwind's default cool gray, anchored to
+     the brand's Ink (#1e2420) and Ink-soft (#52605a) at the 900/500 stops. */
+  --color-gray-50: #f1ece3;
+  --color-gray-100: #e8e1d3;
+  --color-gray-200: #d9d0be;
+  --color-gray-300: #c3b7a0;
+  --color-gray-400: #9c9280;
+  --color-gray-500: #52605a;
+  --color-gray-600: #48544d;
+  --color-gray-700: #3a443e;
+  --color-gray-800: #2c332e;
+  --color-gray-900: #1e2420;
+  --color-gray-950: #141815;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --color-teal: var(--teal);
-  --color-teal-foreground: var(--teal-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent-soft: var(--accent-soft);
+  --color-surface: var(--surface);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }

@@ -13,7 +13,7 @@ function TileVial({ cx, height }: { cx: number; height: number }) {
         width={bodyWidth}
         height={height}
         rx={9}
-        fill="#0e8c93"
+        fill="#3b4a63"
       />
       <rect
         x={cx - capWidth / 2}
@@ -21,7 +21,7 @@ function TileVial({ cx, height }: { cx: number; height: number }) {
         width={capWidth}
         height={capHeight}
         rx={3}
-        fill="#0e8c93"
+        fill="#3b4a63"
       />
     </g>
   )
@@ -58,12 +58,12 @@ export function SyringesTileArt({ className }: { className?: string }) {
           y1={56}
           x2={12}
           y2={56}
-          stroke="#0e8c93"
+          stroke="#3b4a63"
           strokeWidth={4}
           strokeLinecap="round"
         />
-        <rect x={38} y={48} width={78} height={16} rx={8} fill="#0e8c93" />
-        <rect x={116} y={46} width={14} height={20} rx={4} fill="#0e8c93" />
+        <rect x={38} y={48} width={78} height={16} rx={8} fill="#3b4a63" />
+        <rect x={116} y={46} width={14} height={20} rx={4} fill="#3b4a63" />
       </g>
       <g transform="rotate(22 80 56)" opacity={0.45}>
         <line
@@ -71,12 +71,12 @@ export function SyringesTileArt({ className }: { className?: string }) {
           y1={56}
           x2={12}
           y2={56}
-          stroke="#0e8c93"
+          stroke="#3b4a63"
           strokeWidth={4}
           strokeLinecap="round"
         />
-        <rect x={38} y={48} width={78} height={16} rx={8} fill="#0e8c93" />
-        <rect x={116} y={46} width={14} height={20} rx={4} fill="#0e8c93" />
+        <rect x={38} y={48} width={78} height={16} rx={8} fill="#3b4a63" />
+        <rect x={116} y={46} width={14} height={20} rx={4} fill="#3b4a63" />
       </g>
     </svg>
   )

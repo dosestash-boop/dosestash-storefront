@@ -130,7 +130,7 @@ export function ProductVariants({
         type="button"
         onClick={handleAddToCart}
         disabled={!selectedVariant || !inStock || isPending}
-        className="mt-4 flex min-h-11 w-full items-center justify-center rounded-md bg-teal px-6 text-sm font-bold text-teal-foreground transition-colors hover:bg-teal/90 disabled:cursor-not-allowed disabled:opacity-40"
+        className="mt-4 flex min-h-11 w-full items-center justify-center rounded-md bg-accent px-6 text-sm font-bold text-accent-foreground transition-colors hover:bg-accent/90 disabled:cursor-not-allowed disabled:opacity-40"
       >
         {!selectedVariant
           ? "Select options"

@@ -80,7 +80,7 @@ export function MobileMenu({
               role="dialog"
               aria-modal="true"
               aria-label="Navigation menu"
-              className={`absolute inset-y-0 left-0 flex w-[85%] max-w-xs flex-col overflow-y-auto bg-white shadow-xl transition-transform duration-300 ${
+              className={`absolute inset-y-0 left-0 flex w-[85%] max-w-xs flex-col overflow-y-auto bg-surface shadow-xl transition-transform duration-300 ${
                 open ? "translate-x-0" : "-translate-x-full"
               }`}
             >

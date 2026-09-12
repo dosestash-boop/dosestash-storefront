@@ -10,7 +10,7 @@ export function CartButton() {
       type="button"
       onClick={openCart}
       aria-label={`Open cart${itemCount > 0 ? `, ${itemCount} items` : ""}`}
-      className="relative flex h-11 w-11 items-center justify-center text-gray-900 hover:text-teal"
+      className="relative flex h-11 w-11 items-center justify-center text-gray-900 hover:text-accent"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -30,7 +30,7 @@ export function CartButton() {
       {itemCount > 0 && (
         <span
           aria-live="polite"
-          className="absolute -right-0.5 -top-0.5 flex h-[18px] min-w-[18px] items-center justify-center rounded-full bg-teal px-1 text-[10px] font-bold text-teal-foreground"
+          className="absolute -right-0.5 -top-0.5 flex h-[18px] min-w-[18px] items-center justify-center rounded-full bg-accent px-1 text-[10px] font-bold text-accent-foreground"
         >
           {itemCount > 99 ? "99+" : itemCount}
         </span>

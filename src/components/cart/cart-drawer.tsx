@@ -47,7 +47,7 @@ export function CartDrawer() {
         role="dialog"
         aria-modal="true"
         aria-label="Shopping cart"
-        className={`absolute inset-y-0 right-0 flex w-full max-w-sm flex-col bg-white shadow-xl transition-transform duration-300 ${
+        className={`absolute inset-y-0 right-0 flex w-full max-w-sm flex-col bg-surface shadow-xl transition-transform duration-300 ${
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >

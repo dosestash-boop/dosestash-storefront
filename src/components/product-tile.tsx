@@ -15,7 +15,7 @@ export function ProductTile({
   return (
     <Link
       href={`/products/${product.handle}`}
-      className="group flex flex-col overflow-hidden rounded-2xl bg-gray-50 transition-colors hover:bg-gray-100"
+      className="group flex flex-col overflow-hidden rounded-2xl bg-accent-soft transition-colors hover:bg-accent-soft/70"
     >
       <div className="aspect-square w-full overflow-hidden">
         {product.thumbnail ? (
@@ -33,7 +33,7 @@ export function ProductTile({
         )}
       </div>
 
-      <div className="border-t border-gray-100 px-4 py-3">
+      <div className="border-t border-black/5 px-4 py-3">
         <h3 className="line-clamp-2 text-sm font-bold text-gray-900">
           {product.title}
         </h3>

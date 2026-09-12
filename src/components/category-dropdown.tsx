@@ -88,7 +88,7 @@ export function CategoryDropdown({
         onClick={() => setOpen((v) => !v)}
         aria-expanded={open}
         aria-haspopup="true"
-        className="flex min-h-11 items-center gap-1 text-sm font-medium text-gray-900 hover:text-teal"
+        className="flex min-h-11 items-center gap-1 text-sm font-medium text-gray-900 hover:text-accent"
       >
         {label}
         <svg
@@ -112,7 +112,7 @@ export function CategoryDropdown({
         }`}
       >
         <div
-          className={`grid gap-3 rounded-2xl border border-gray-100 bg-white p-4 shadow-lg ${gridClassForCount(categories.length)}`}
+          className={`grid gap-3 rounded-2xl border border-gray-100 bg-surface p-4 shadow-lg ${gridClassForCount(categories.length)}`}
         >
           {categories.map((category) => (
             <CategoryTile

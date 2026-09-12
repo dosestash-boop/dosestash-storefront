@@ -16,12 +16,12 @@ export function CategoryTile({
     <Link
       href={href}
       onClick={onClick}
-      className="group flex flex-col overflow-hidden rounded-2xl bg-gray-50 transition-colors hover:bg-gray-100"
+      className="group flex flex-col overflow-hidden rounded-2xl bg-accent-soft transition-colors hover:bg-accent-soft/70"
     >
       <div className="flex aspect-[4/3] items-center justify-center p-6">
         {art}
       </div>
-      <span className="border-t border-gray-100 px-4 py-3 text-sm font-bold text-gray-900">
+      <span className="border-t border-black/5 px-4 py-3 text-sm font-bold text-gray-900">
         {label}
       </span>
     </Link>

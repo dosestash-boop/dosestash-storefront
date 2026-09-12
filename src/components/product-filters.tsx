@@ -42,7 +42,7 @@ export function ProductFiltersPanel({
                   name="size"
                   value={value}
                   defaultChecked={active.sizes?.includes(value)}
-                  className="h-4 w-4 rounded border-gray-300 text-teal focus:ring-teal"
+                  className="h-4 w-4 rounded border-gray-300 text-accent focus:ring-accent"
                 />
                 {value}
                 <span className="text-gray-400">({count})</span>
@@ -68,7 +68,7 @@ export function ProductFiltersPanel({
                   name="color"
                   value={value}
                   defaultChecked={active.colors?.includes(value)}
-                  className="h-4 w-4 rounded border-gray-300 text-teal focus:ring-teal"
+                  className="h-4 w-4 rounded border-gray-300 text-accent focus:ring-accent"
                 />
                 {value}
                 <span className="text-gray-400">({count})</span>

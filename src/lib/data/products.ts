@@ -97,6 +97,43 @@ export async function listCategories(): Promise<
   return product_categories
 }
 
+/**
+ * Picks the category with the most products from a list of candidates -
+ * used for picking a default/primary category to link to (e.g. a homepage
+ * CTA) without hardcoding which size is "the real one" as the catalog
+ * fills in unevenly across sizes.
+ */
+export async function getMostStockedCategory(
+  categories: HttpTypes.StoreProductCategory[]
+): Promise<HttpTypes.StoreProductCategory | undefined> {
+  if (categories.length === 0) return undefined
+  if (categories.length === 1) return categories[0]
+
+  const region = await getDefaultRegion()
+
+  const counts = await Promise.all(
+    categories.map((category) =>
+      sdk.store.product.list({
+        category_id: [category.id],
+        region_id: region?.id,
+        limit: 1,
+        fields: "id",
+      })
+    )
+  )
+
+  let best = categories[0]
+  let bestCount = counts[0]?.count ?? 0
+  for (let i = 1; i < categories.length; i++) {
+    const count = counts[i]?.count ?? 0
+    if (count > bestCount) {
+      best = categories[i]
+      bestCount = count
+    }
+  }
+  return best
+}
+
 export type ProductFilters = {
   categoryId?: string
   sizes?: string[]
