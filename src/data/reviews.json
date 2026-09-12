@@ -1,0 +1,853 @@
+[
+  {
+    "id": "r01",
+    "author": "Gc",
+    "date": "2025-01-14",
+    "rating": 5,
+    "text": "Super neat product, ordered again!",
+    "productLine": "3mL",
+    "images": []
+  },
+  {
+    "id": "r02",
+    "author": "scottylippert",
+    "date": "2025-01-23",
+    "rating": 5,
+    "text": "Nice and tight fit. In fact, so tight if you add a vial cap to a vial it won't close.",
+    "productLine": "3mL",
+    "images": []
+  },
+  {
+    "id": "r03",
+    "author": "crazywig",
+    "date": "2025-02-19",
+    "rating": 5,
+    "text": "Great slider box. Item shipped quickly.",
+    "productLine": "3mL",
+    "images": []
+  },
+  {
+    "id": "r04",
+    "author": "Steve",
+    "date": "2025-03-28",
+    "rating": 5,
+    "text": "These peptide vial storage cases are the ABSOLUTE BEST storage cases I have ever used; I am ordering several more today. These are the perfect size and I have had them in and out of the freezer with no problem opening or closing. If you purchase large quantities of peptides at a time like I do, you need these cases. Highly recommended!",
+    "productLine": "3mL",
+    "images": [
+      "/reviews/r04-1.jpg",
+      "/reviews/r04-2.jpg",
+      "/reviews/r04-3.jpg",
+      "/reviews/r04-4.jpg"
+    ]
+  },
+  {
+    "id": "r05",
+    "author": "Anonymous",
+    "date": "2025-04-21",
+    "rating": 5,
+    "text": "This vial box is exactly what I needed to carry little samples of my fountain pen ink around with my glass pen. Customer service was excellent - I sent her photos and dimensions of the vials I was going to use and she confirmed they would fit in her design. This is a very well-designed box and I am absolutely over the moon about it!",
+    "productLine": "3mL",
+    "images": ["/reviews/r05-1.jpg"]
+  },
+  {
+    "id": "r06",
+    "author": "Tina",
+    "date": "2025-04-30",
+    "rating": 5,
+    "text": "Great product and great service, thank you",
+    "productLine": "3mL",
+    "images": []
+  },
+  {
+    "id": "r07",
+    "author": "Steve",
+    "date": "2025-05-20",
+    "rating": 5,
+    "text": "My second purchase, and I am just as pleased as my first. These cases work great are are just the right size.",
+    "productLine": "3mL",
+    "images": []
+  },
+  {
+    "id": "r08",
+    "author": "Anonymous",
+    "date": "2025-05-27",
+    "rating": 5,
+    "text": "Case arrived exactly as described and quick. Love the color.",
+    "productLine": "3mL",
+    "images": ["/reviews/r08-1.jpg"]
+  },
+  {
+    "id": "r09",
+    "author": "Rebecca",
+    "date": "2025-06-05",
+    "rating": 5,
+    "text": "The 10 3ml vial holder is good quality. I like the magnet to keep the sliding lock in place. Vials fit well with only a little movement.",
+    "productLine": "3mL",
+    "images": []
+  },
+  {
+    "id": "r10",
+    "author": "Anonymous",
+    "date": "2025-08-23",
+    "rating": 5,
+    "text": "Nice heavy duty little case I love it",
+    "productLine": "3mL",
+    "images": []
+  },
+  {
+    "id": "r11",
+    "author": "Adryel",
+    "date": "2025-08-29",
+    "rating": 5,
+    "text": "Really like these cases, pretty sleek and fit on my fridge without taking much space!",
+    "productLine": "3mL",
+    "images": []
+  },
+  {
+    "id": "r12",
+    "author": "Meadow",
+    "date": "2025-09-11",
+    "rating": 5,
+    "text": "I love the low profile slide storage. Very sturdy. I wish it was made in a 30!",
+    "productLine": "3mL",
+    "images": []
+  },
+  {
+    "id": "r13",
+    "author": "Matthew",
+    "date": "2025-09-19",
+    "rating": 5,
+    "text": "Great project! Durable and well made!",
+    "productLine": "3mL",
+    "images": []
+  },
+  {
+    "id": "r14",
+    "author": "justinsmt88",
+    "date": "2025-09-30",
+    "rating": 5,
+    "text": "Exactly as pictured! Works great in the freezer.",
+    "productLine": "3mL",
+    "images": []
+  },
+  {
+    "id": "r15",
+    "author": "willis682000",
+    "date": "2025-11-04",
+    "rating": 1,
+    "text": "this is way to small to fit vials in. and takes forever to get it.",
+    "productLine": "3mL",
+    "images": []
+  },
+  {
+    "id": "r16",
+    "author": "Abby",
+    "date": "2025-11-10",
+    "rating": 5,
+    "text": "",
+    "productLine": "3mL",
+    "images": []
+  },
+  {
+    "id": "r17",
+    "author": "Michael",
+    "date": "2025-12-01",
+    "rating": 5,
+    "text": "arrived quickly. fits perfectly in small spaces in fridge or freezer to store vials",
+    "productLine": "3mL",
+    "images": []
+  },
+  {
+    "id": "r18",
+    "author": "Michael",
+    "date": "2026-01-18",
+    "rating": 5,
+    "text": "these are perfect for slotting in narrow space in fridge. slim profile doesn't take up much room and ver discrete.",
+    "productLine": "3mL",
+    "images": []
+  },
+  {
+    "id": "r19",
+    "author": "Peggy",
+    "date": "2026-02-19",
+    "rating": 5,
+    "text": "Very nice, not as bulky as others and vials lay where you can read them! Satisfied",
+    "productLine": "3mL",
+    "images": []
+  },
+  {
+    "id": "r20",
+    "author": "Peggy",
+    "date": "2026-02-23",
+    "rating": 5,
+    "text": "These peptide holders allow you to read the labels and they are not bulky in your refrigerator. I am very happy with them.",
+    "productLine": "3mL",
+    "images": []
+  },
+  {
+    "id": "r21",
+    "author": "Peggy",
+    "date": "2026-03-13",
+    "rating": 5,
+    "text": "Perfect larger number of peptides storage. Still take up minimal space in fridge, easy to read labels. Great functionality!",
+    "productLine": "3mL",
+    "images": []
+  },
+  {
+    "id": "r22",
+    "author": "Peggy",
+    "date": "2026-03-13",
+    "rating": 5,
+    "text": "I love these SO much for storing peptides in my mini-fridge! They stack well, take up minimal space and are super functional. I will be ordering more!",
+    "productLine": "3mL",
+    "images": []
+  },
+  {
+    "id": "r23",
+    "author": "Peggy",
+    "date": "2026-03-13",
+    "rating": 5,
+    "text": "After experimenting with other cases, these are the ones! They are super functional. Their minimal size makes them easy to stack in my mini fridge. They are easy to label and stack. When I open them I can easily read the contents as the vial label is viewable! I will be ordering more!",
+    "productLine": "3mL",
+    "images": []
+  },
+  {
+    "id": "r24",
+    "author": "Peggy",
+    "date": "2026-03-13",
+    "rating": 5,
+    "text": "I have already ordered several of these and will be ordering more! They are just the perfect peptide storage containers for my mini fridge! They stack, you can easily read the labels and they do not take up much room! Perfect!",
+    "productLine": "3mL",
+    "images": []
+  },
+  {
+    "id": "r25",
+    "author": "Peggy",
+    "date": "2026-03-13",
+    "rating": 5,
+    "text": "One of several I ordered of these! Will be ordering more, they are perfect for my mini fridge, the easily stack, don't take up much room and when opened you can easily read the labels. They make my life easier with the easy organization. Perfect!",
+    "productLine": "3mL",
+    "images": []
+  },
+  {
+    "id": "r26",
+    "author": "bigjoeingram",
+    "date": "2026-04-04",
+    "rating": 5,
+    "text": "Great product. Exactly like it states.",
+    "productLine": "3mL",
+    "images": []
+  },
+  {
+    "id": "r27",
+    "author": "Michael",
+    "date": "2026-04-07",
+    "rating": 5,
+    "text": "Items fit perfectly - good stuff!",
+    "productLine": "3mL",
+    "images": []
+  },
+  {
+    "id": "r28",
+    "author": "Peggy",
+    "date": "2026-04-15",
+    "rating": 5,
+    "text": "Honestly, the mail service squashed her box flat and 3 of these were broken. I notified the seller and she shipped out replacements the next morning! Fantastic customer service. I have bought these before so already knew how much I loved them for keeping my peptides safe in my mini fridge, These were no exception, perfect!",
+    "productLine": "3mL",
+    "images": []
+  },
+  {
+    "id": "r29",
+    "author": "Peggy",
+    "date": "2026-04-15",
+    "rating": 5,
+    "text": "Fantastic little boxes to store peptides in my mini fridge! I have bought several. Customer service is fantastic too!",
+    "productLine": "3mL",
+    "images": []
+  },
+  {
+    "id": "r30",
+    "author": "Peggy",
+    "date": "2026-04-15",
+    "rating": 5,
+    "text": "Fantastic little boxes to hold 10 vials of peptides in a small space Mini fridge. Great customer service, great product!",
+    "productLine": "3mL",
+    "images": []
+  },
+  {
+    "id": "r31",
+    "author": "Peggy",
+    "date": "2026-04-15",
+    "rating": 5,
+    "text": "Perfect peptide boxes, it shows your labels, locks closed and takes up very little space. I have ordered quite a few of these as I like them so much. Great customer service too!",
+    "productLine": "3mL",
+    "images": []
+  },
+  {
+    "id": "r32",
+    "author": "Peggy",
+    "date": "2026-04-15",
+    "rating": 5,
+    "text": "Great peptide case, holds 20 vials and you can read the labels. They don't take up much space which was a priority for me. Customer service is fantastic too.",
+    "productLine": "3mL",
+    "images": []
+  },
+  {
+    "id": "r33",
+    "author": "Peggy",
+    "date": "2026-05-20",
+    "rating": 5,
+    "text": "As always perfect for my little vials in my mini fridge.",
+    "productLine": "3mL",
+    "images": []
+  },
+  {
+    "id": "r34",
+    "author": "Peggy",
+    "date": "2026-05-20",
+    "rating": 5,
+    "text": "Great little cases, keeps my mini fridge organized and love that they lock closed.",
+    "productLine": "3mL",
+    "images": []
+  },
+  {
+    "id": "r35",
+    "author": "Peggy",
+    "date": "2026-05-20",
+    "rating": 5,
+    "text": "Perfect for organizing my mini fridge. Fantastic and helpful seller",
+    "productLine": "3mL",
+    "images": []
+  },
+  {
+    "id": "r36",
+    "author": "Josh",
+    "date": "2026-05-29",
+    "rating": 5,
+    "text": "Great product...it's going to work perfectly!",
+    "productLine": "3mL",
+    "images": []
+  },
+  {
+    "id": "r37",
+    "author": "Peggy",
+    "date": "2026-06-02",
+    "rating": 5,
+    "text": "Great as always, perfect for my use.",
+    "productLine": "3mL",
+    "images": []
+  },
+  {
+    "id": "r38",
+    "author": "Peggy",
+    "date": "2026-06-02",
+    "rating": 5,
+    "text": "Great as always, great in my mini fridge!",
+    "productLine": "3mL",
+    "images": []
+  },
+  {
+    "id": "r39",
+    "author": "Rafael",
+    "date": "2026-06-12",
+    "rating": 5,
+    "text": "Excellent customer service. High quality work. Even added an extra gift. AAAAA+++++",
+    "productLine": "3mL",
+    "images": []
+  },
+  {
+    "id": "r40",
+    "author": "Rafael",
+    "date": "2026-06-25",
+    "rating": 5,
+    "text": "Seller has high quality products and fast shipping. Will definitely continue to purchase from this seller.",
+    "productLine": "3mL",
+    "images": []
+  },
+  {
+    "id": "r41",
+    "author": "Rafael",
+    "date": "2026-06-25",
+    "rating": 5,
+    "text": "Excellent seller. Reliable, fast and efficient. AAAAA+++++",
+    "productLine": "3mL",
+    "images": []
+  },
+  {
+    "id": "r42",
+    "author": "Rafael",
+    "date": "2026-07-17",
+    "rating": 5,
+    "text": "Arrived perfect and as described, came with an extra freebie box, will definitely purchase from again. AAAAA+++++ Thank you!",
+    "productLine": "3mL",
+    "images": []
+  },
+  {
+    "id": "r43",
+    "author": "Matthew",
+    "date": "2026-08-10",
+    "rating": 5,
+    "text": "Great product. I would def recommend.",
+    "productLine": "3mL",
+    "images": []
+  },
+  {
+    "id": "r44",
+    "author": "Rafael",
+    "date": "2026-09-02",
+    "rating": 5,
+    "text": "As always great quality and fast shipping. AAAAA+++++",
+    "productLine": "3mL",
+    "images": []
+  },
+  {
+    "id": "r45",
+    "author": "scottylippert",
+    "date": "2025-01-23",
+    "rating": 5,
+    "text": "Tight fit. Vials with a cap will block it from closing.",
+    "productLine": "10mL",
+    "images": []
+  },
+  {
+    "id": "r46",
+    "author": "Edward",
+    "date": "2025-02-08",
+    "rating": 5,
+    "text": "Great customer service. Item was as described. When vials have the cap the lid is snug but I find it holds them tighter. Very happy with the product and the communication.",
+    "productLine": "10mL",
+    "images": []
+  },
+  {
+    "id": "r47",
+    "author": "Edward",
+    "date": "2025-02-08",
+    "rating": 5,
+    "text": "My vials were slightly shorter in height but fit very well. With the vial lids on the lids have to be the center otherwise it's too tight. Very solid product and I would purchase again",
+    "productLine": "10mL",
+    "images": []
+  },
+  {
+    "id": "r48",
+    "author": "Tina",
+    "date": "2025-04-30",
+    "rating": 5,
+    "text": "Great product and great service, thank you",
+    "productLine": "10mL",
+    "images": []
+  },
+  {
+    "id": "r49",
+    "author": "Joseph",
+    "date": "2025-05-21",
+    "rating": 5,
+    "text": "The box holds my vials perfectly!",
+    "productLine": "10mL",
+    "images": ["/reviews/r49-1.jpg"]
+  },
+  {
+    "id": "r50",
+    "author": "Tessy",
+    "date": "2025-05-23",
+    "rating": 5,
+    "text": "Fantastically perfect!! I will absolutely be ordering more of these little boxes.",
+    "productLine": "10mL",
+    "images": []
+  },
+  {
+    "id": "r51",
+    "author": "Joseph",
+    "date": "2025-06-05",
+    "rating": 5,
+    "text": "It's a geat well made product!",
+    "productLine": "10mL",
+    "images": []
+  },
+  {
+    "id": "r52",
+    "author": "Tiffany",
+    "date": "2025-06-11",
+    "rating": 5,
+    "text": "Loved the color and shipped so fast",
+    "productLine": "10mL",
+    "images": []
+  },
+  {
+    "id": "r53",
+    "author": "Ian",
+    "date": "2025-07-28",
+    "rating": 5,
+    "text": "Perfect as usual! Thank you!",
+    "productLine": "10mL",
+    "images": []
+  },
+  {
+    "id": "r54",
+    "author": "David",
+    "date": "2026-01-25",
+    "rating": 5,
+    "text": "Perfect for holding my vials",
+    "productLine": "10mL",
+    "images": []
+  },
+  {
+    "id": "r55",
+    "author": "Peggy",
+    "date": "2026-03-13",
+    "rating": 5,
+    "text": "Perfect for larger peptide bottles! I ordered some fancier ones first but they did not fit vials well and took up too much room in my mini-fridge. These are easy to Label and stack well in my little fridge. I love being able to read the labels without removing them! These are well thought out and perfect!",
+    "productLine": "10mL",
+    "images": []
+  },
+  {
+    "id": "r56",
+    "author": "Peggy",
+    "date": "2026-03-13",
+    "rating": 5,
+    "text": "Great for those larger bottles! Again it takes up minimal room and stacks well. I have bought several of these in different sizes! Well thought out for functionality",
+    "productLine": "10mL",
+    "images": []
+  },
+  {
+    "id": "r57",
+    "author": "Peggy",
+    "date": "2026-05-07",
+    "rating": 5,
+    "text": "Great quality as always. I have bought many of her vial containers as they work better in my mini fridge than the bigger fancier ones. I like he simplicity of her designs. They work well and the vials lay in them so I can read labels. They lock closed and don't take up a lot of room. They are perfect!",
+    "productLine": "10mL",
+    "images": []
+  },
+  {
+    "id": "r58",
+    "author": "Peggy",
+    "date": "2026-05-20",
+    "rating": 5,
+    "text": "Great for my 10mL vials, keeps everything nice and organized in my mini fridge",
+    "productLine": "10mL",
+    "images": []
+  },
+  {
+    "id": "r59",
+    "author": "Peggy",
+    "date": "2026-05-20",
+    "rating": 5,
+    "text": "Again…a great purchase, so nice for organization in my mini fridge. Great seller!",
+    "productLine": "10mL",
+    "images": []
+  },
+  {
+    "id": "r60",
+    "author": "Heather",
+    "date": "2025-01-23",
+    "rating": 5,
+    "text": "Perfect just what I described and needed! Custom insulin supplies box!",
+    "productLine": "1mL syringe",
+    "images": ["/reviews/r60-1.jpg"]
+  },
+  {
+    "id": "r61",
+    "author": "Dana",
+    "date": "2025-01-25",
+    "rating": 5,
+    "text": "This is sooooo amazing I love it so much I'm ordering a 2nd one!!",
+    "productLine": "1mL syringe",
+    "images": []
+  },
+  {
+    "id": "r62",
+    "author": "Scott",
+    "date": "2025-02-07",
+    "rating": 5,
+    "text": "Great business to work with....very smooth transaction; I would buy again!",
+    "productLine": "1mL syringe",
+    "images": []
+  },
+  {
+    "id": "r63",
+    "author": "Amy",
+    "date": "2025-02-08",
+    "rating": 5,
+    "text": "Beautiful case!! Very sturdy, and looks great!!",
+    "productLine": "1mL syringe",
+    "images": []
+  },
+  {
+    "id": "r64",
+    "author": "Jesse",
+    "date": "2025-03-03",
+    "rating": 5,
+    "text": "Highly recommend. Great product! Very useful for your insulin syringes! Sellers communication is excellent.",
+    "productLine": "1mL syringe",
+    "images": []
+  },
+  {
+    "id": "r65",
+    "author": "JD",
+    "date": "2025-03-20",
+    "rating": 5,
+    "text": "Great product. Speedy delivery. Recommend.",
+    "productLine": "1mL syringe",
+    "images": []
+  },
+  {
+    "id": "r66",
+    "author": "Tina",
+    "date": "2025-04-30",
+    "rating": 5,
+    "text": "Great product and great service, thank you",
+    "productLine": "1mL syringe",
+    "images": []
+  },
+  {
+    "id": "r67",
+    "author": "Tina",
+    "date": "2025-04-30",
+    "rating": 5,
+    "text": "Great product and great service, thank you. The item worked so well that I ordered additional one.",
+    "productLine": "1mL syringe",
+    "images": []
+  },
+  {
+    "id": "r68",
+    "author": "Maribel",
+    "date": "2025-05-11",
+    "rating": 5,
+    "text": "I love this item it is just as described and very sturdy and well made…excited to use it.",
+    "productLine": "1mL syringe",
+    "images": []
+  },
+  {
+    "id": "r69",
+    "author": "Liamsmommy311",
+    "date": "2025-05-19",
+    "rating": 5,
+    "text": "Made so good! Great items",
+    "productLine": "1mL syringe",
+    "images": []
+  },
+  {
+    "id": "r70",
+    "author": "Liamsmommy311",
+    "date": "2025-05-19",
+    "rating": 5,
+    "text": "Just used on a trip and its great",
+    "productLine": "1mL syringe",
+    "images": []
+  },
+  {
+    "id": "r71",
+    "author": "Payne",
+    "date": "2025-05-23",
+    "rating": 5,
+    "text": "I absolutely love the color! And the function is great! Will definitely buy more of these items.",
+    "productLine": "1mL syringe",
+    "images": []
+  },
+  {
+    "id": "r72",
+    "author": "Rebecca",
+    "date": "2025-06-05",
+    "rating": 5,
+    "text": "Item is pretty good quality. I like the magnet to keep the slider in place, and love how it keeps the syringes neatly organized. It is a bit of a tight fit for my particular brand of alcohol wipes, but they do still fit.",
+    "productLine": "1mL syringe",
+    "images": ["/reviews/r72-1.jpg"]
+  },
+  {
+    "id": "r73",
+    "author": "Ari",
+    "date": "2025-06-23",
+    "rating": 5,
+    "text": "I'm at a loss of words trying to describe my deep admiration and appreciation for the person who makes this lovely product. This is exactly what I wanted in the colour that I love thank you so much for making my day.",
+    "productLine": "1mL syringe",
+    "images": []
+  },
+  {
+    "id": "r74",
+    "author": "Elijah",
+    "date": "2025-07-07",
+    "rating": 5,
+    "text": "Really great quality, far above other 3d printed stuff I've gotten before.",
+    "productLine": "1mL syringe",
+    "images": []
+  },
+  {
+    "id": "r75",
+    "author": "Ian",
+    "date": "2025-07-12",
+    "rating": 5,
+    "text": "Great item. Works exactly as intended.",
+    "productLine": "1mL syringe",
+    "images": []
+  },
+  {
+    "id": "r76",
+    "author": "Rebecca",
+    "date": "2025-07-13",
+    "rating": 5,
+    "text": "Great product, exactly as advertised.",
+    "productLine": "1mL syringe",
+    "images": []
+  },
+  {
+    "id": "r77",
+    "author": "Rebecca",
+    "date": "2025-07-13",
+    "rating": 5,
+    "text": "Great product, exactly as advertised. Works great!",
+    "productLine": "1mL syringe",
+    "images": []
+  },
+  {
+    "id": "r78",
+    "author": "Ian",
+    "date": "2025-07-28",
+    "rating": 5,
+    "text": "Perfect as usual! Thank you!",
+    "productLine": "1mL syringe",
+    "images": []
+  },
+  {
+    "id": "r79",
+    "author": "Brenna",
+    "date": "2025-07-31",
+    "rating": 5,
+    "text": "Works as described. Quick shipping. Awesome product that fits my needs perfectly.",
+    "productLine": "1mL syringe",
+    "images": []
+  },
+  {
+    "id": "r80",
+    "author": "John",
+    "date": "2025-09-20",
+    "rating": 5,
+    "text": "Just what I asked for.",
+    "productLine": "1mL syringe",
+    "images": []
+  },
+  {
+    "id": "r81",
+    "author": "Hector",
+    "date": "2025-09-23",
+    "rating": 5,
+    "text": "Great quality and design! Love it!!!!",
+    "productLine": "1mL syringe",
+    "images": []
+  },
+  {
+    "id": "r82",
+    "author": "Dayan",
+    "date": "2025-10-12",
+    "rating": 5,
+    "text": "",
+    "productLine": "1mL syringe",
+    "images": []
+  },
+  {
+    "id": "r83",
+    "author": "Nikki",
+    "date": "2025-11-03",
+    "rating": 5,
+    "text": "Awesome product! Perfect for traveling and organizing daily.",
+    "productLine": "1mL syringe",
+    "images": []
+  },
+  {
+    "id": "r84",
+    "author": "Hector",
+    "date": "2025-11-19",
+    "rating": 5,
+    "text": "Received the wrong item, sent message to seller and that same day the replacement was on the way. Amazing customer service and quality! Highly recommended! Thanks 🙏🏼",
+    "productLine": "1mL syringe",
+    "images": []
+  },
+  {
+    "id": "r85",
+    "author": "Victoria",
+    "date": "2025-12-03",
+    "rating": 5,
+    "text": "Perfect, as described. Thank you!",
+    "productLine": "1mL syringe",
+    "images": []
+  },
+  {
+    "id": "r86",
+    "author": "Nongluck",
+    "date": "2026-01-13",
+    "rating": 5,
+    "text": "Even I paid for shipping, still arrive slow. From the quality, this item was pricey.",
+    "productLine": "1mL syringe",
+    "images": []
+  },
+  {
+    "id": "r87",
+    "author": "Joey",
+    "date": "2026-01-18",
+    "rating": 5,
+    "text": "",
+    "productLine": "1mL syringe",
+    "images": []
+  },
+  {
+    "id": "r88",
+    "author": "Joey",
+    "date": "2026-02-05",
+    "rating": 5,
+    "text": "Would buy again no issues",
+    "productLine": "1mL syringe",
+    "images": []
+  },
+  {
+    "id": "r89",
+    "author": "SmokinDog",
+    "date": "2026-02-10",
+    "rating": 5,
+    "text": "Perfect, just what I needed!",
+    "productLine": "1mL syringe",
+    "images": ["/reviews/r89-1.jpg"]
+  },
+  {
+    "id": "r90",
+    "author": "Michael",
+    "date": "2026-04-07",
+    "rating": 5,
+    "text": "Love this item. Everything fits nice and neat. Appreciate the little side lock - thats a nice touch.",
+    "productLine": "1mL syringe",
+    "images": []
+  },
+  {
+    "id": "r91",
+    "author": "Rhett",
+    "date": "2026-05-12",
+    "rating": 5,
+    "text": "Great fit for pre-loaded syringes. Just what I was looking for. Thanks",
+    "productLine": "1mL syringe",
+    "images": []
+  },
+  {
+    "id": "r92",
+    "author": "Rafael",
+    "date": "2026-06-25",
+    "rating": 5,
+    "text": "I have purchased multiple times from seller and it's always a pleasure to deal with him. AAAAA++++++",
+    "productLine": "1mL syringe",
+    "images": []
+  },
+  {
+    "id": "r93",
+    "author": "Karli",
+    "date": "2026-08-20",
+    "rating": 5,
+    "text": "Fast Shipping, which I appreciate, got what I asked for and an extra. Thank you for that - and will order soon again!! Great experience, highly recommend",
+    "productLine": "1mL syringe",
+    "images": []
+  },
+  {
+    "id": "r94",
+    "author": "Karla",
+    "date": "2026-08-26",
+    "rating": 5,
+    "text": "ordered in pink and they are pretty freaking amazing! got a very usable gift too! very greatful",
+    "productLine": "1mL syringe",
+    "images": []
+  }
+]
