@@ -2,6 +2,7 @@ import { sdk } from "@/lib/medusa"
 import type { HttpTypes } from "@medusajs/types"
 import { getDefaultRegion } from "./regions"
 import { getProductPriceInfo } from "@/lib/product-price"
+import { formatPrice } from "@/lib/format-price"
 
 const PRODUCT_FIELDS =
   "*variants.calculated_price,*images,+variants.inventory_quantity"
@@ -132,6 +133,64 @@ export async function getMostStockedCategory(
     }
   }
   return best
+}
+
+async function getCategoryPriceStats(categoryId: string): Promise<{
+  min: number
+  max: number
+  currencyCode: string
+} | null> {
+  const region = await getDefaultRegion()
+
+  const { products } = await sdk.store.product.list({
+    category_id: [categoryId],
+    region_id: region?.id,
+    limit: FILTER_FETCH_LIMIT,
+    fields: PRODUCT_FIELDS,
+  })
+
+  let min = Infinity
+  let max = -Infinity
+  let currencyCode = "usd"
+  for (const product of products) {
+    const priceInfo = getProductPriceInfo(product)
+    if (!priceInfo) continue
+    currencyCode = priceInfo.currencyCode
+    min = Math.min(min, priceInfo.minCalculatedPrice)
+    max = Math.max(max, priceInfo.minCalculatedPrice)
+  }
+
+  return min === Infinity ? null : { min, max, currencyCode }
+}
+
+/**
+ * Cheapest calculated price across all products in a category, formatted
+ * for display (e.g. "from $22.00" CTAs) - fetched live so it always
+ * reflects current Medusa pricing rather than being hardcoded.
+ */
+export async function getCategoryStartingPrice(
+  categoryId: string
+): Promise<string | null> {
+  const stats = await getCategoryPriceStats(categoryId)
+  return stats ? formatPrice(stats.min, stats.currencyCode) : null
+}
+
+/**
+ * Min-max calculated price range across all products in a category,
+ * formatted for display (e.g. "$34–$58" photo badges). Collapses to a
+ * single price when every product in the category costs the same.
+ */
+export async function getCategoryPriceRange(
+  categoryId: string
+): Promise<string | null> {
+  const stats = await getCategoryPriceStats(categoryId)
+  if (!stats) return null
+
+  const low = formatPrice(stats.min, stats.currencyCode)
+  if (stats.min === stats.max) return low
+
+  const high = formatPrice(stats.max, stats.currencyCode)
+  return `${low}–${high}`
 }
 
 export type ProductFilters = {

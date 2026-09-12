@@ -6,6 +6,8 @@ import {
   listFeaturedProducts,
   listCategories,
   getMostStockedCategory,
+  getCategoryStartingPrice,
+  getCategoryPriceRange,
 } from "@/lib/data/products"
 import { groupCategoriesByLine } from "@/lib/category-groups"
 
@@ -66,16 +68,24 @@ function SnowflakeIcon({ className }: { className?: string }) {
   )
 }
 
-function FeatureCard({ icon, label }: { icon: ReactNode; label: string }) {
+function FeatureItem({ icon, label }: { icon: ReactNode; label: string }) {
   return (
-    <div className="flex flex-col items-center gap-2 rounded-xl bg-gray-50 px-4 py-6 text-center">
+    <div className="flex items-center justify-center gap-3 py-2 text-center sm:py-0">
       <span className="text-accent">{icon}</span>
       <span className="text-sm font-medium text-gray-900">{label}</span>
     </div>
   )
 }
 
-function HeroPhoto({ art, label }: { art: ReactNode; label: string }) {
+function HeroPhoto({
+  art,
+  label,
+  priceRange,
+}: {
+  art: ReactNode
+  label: string
+  priceRange?: string | null
+}) {
   return (
     <div className="relative aspect-[16/9] w-full overflow-hidden rounded-2xl bg-gray-50">
       <div className="flex h-full w-full items-center justify-center p-6">
@@ -84,6 +94,11 @@ function HeroPhoto({ art, label }: { art: ReactNode; label: string }) {
       <span className="absolute bottom-3 left-3 rounded-md bg-surface px-2.5 py-1 text-xs font-medium text-gray-900 shadow-sm">
         {label}
       </span>
+      {priceRange && (
+        <span className="absolute bottom-3 right-3 rounded-md bg-accent px-2.5 py-1 text-xs font-medium text-accent-foreground shadow-sm">
+          {priceRange}
+        </span>
+      )}
     </div>
   )
 }
@@ -99,6 +114,23 @@ export default async function Home() {
     getMostStockedCategory(vialCategories),
     getMostStockedCategory(syringeCategories),
   ])
+  const [
+    vialStartingPrice,
+    syringeStartingPrice,
+    vialPriceRange,
+    syringePriceRange,
+  ] = await Promise.all([
+    primaryVialCategory
+      ? getCategoryStartingPrice(primaryVialCategory.id)
+      : null,
+    primarySyringeCategory
+      ? getCategoryStartingPrice(primarySyringeCategory.id)
+      : null,
+    primaryVialCategory ? getCategoryPriceRange(primaryVialCategory.id) : null,
+    primarySyringeCategory
+      ? getCategoryPriceRange(primarySyringeCategory.id)
+      : null,
+  ])
 
   return (
     <div>
@@ -110,8 +142,7 @@ export default async function Home() {
 
           <p className="mx-auto mt-[22px] max-w-[500px] text-lg text-gray-500">
             Purpose-built storage for insulin, peptides, and prescribed
-            hormone therapy — keep your supply organized and quick to grab,
-            no mixing up doses.
+            hormone therapy. Keep your supply organized and easy to grab.
           </p>
 
           <div className="mt-8 flex flex-wrap justify-center gap-3">
@@ -121,6 +152,11 @@ export default async function Home() {
                 className="inline-flex min-h-11 items-center justify-center rounded-md bg-accent px-6 text-sm font-medium text-accent-foreground hover:bg-accent/90"
               >
                 Shop Vial Cases
+                {vialStartingPrice && (
+                  <span className="ml-1.5 font-normal text-accent-foreground/70">
+                    from {vialStartingPrice}
+                  </span>
+                )}
               </Link>
             )}
             {primarySyringeCategory && (
@@ -129,34 +165,47 @@ export default async function Home() {
                 className="inline-flex min-h-11 items-center justify-center rounded-md border-2 border-accent px-6 text-sm font-medium text-accent transition-colors hover:bg-accent hover:text-accent-foreground"
               >
                 Shop Syringe Cases
+                {syringeStartingPrice && (
+                  <span className="ml-1.5 font-normal opacity-70">
+                    from {syringeStartingPrice}
+                  </span>
+                )}
               </Link>
             )}
           </div>
 
-          <div className="mx-auto mt-10 grid max-w-[500px] grid-cols-3 gap-4 border-t border-gray-100 pt-8">
-            <FeatureCard
-              icon={<BoxIcon className="h-6 w-6" />}
-              label="Vials & syringes"
-            />
-            <FeatureCard
-              icon={<StackIcon className="h-6 w-6" />}
-              label="Scales with your supply"
-            />
-            <FeatureCard
-              icon={<SnowflakeIcon className="h-6 w-6" />}
-              label="Freezer, fridge, or travel"
-            />
-          </div>
+          <p className="mt-5 text-sm text-gray-500">
+            Ships in 2–3 days · Plain packaging · Built to protect your vials
+          </p>
         </div>
 
         <div className="flex flex-col gap-4">
           <HeroPhoto
             art={<VialsTileArt className="h-full w-full" />}
             label="Vial cases"
+            priceRange={vialPriceRange}
           />
           <HeroPhoto
             art={<SyringesTileArt className="h-full w-full" />}
             label="Syringe cases"
+            priceRange={syringePriceRange}
+          />
+        </div>
+      </div>
+
+      <div className="mx-auto max-w-7xl border-t border-gray-100 px-4 py-5 sm:px-6 lg:px-8">
+        <div className="mx-auto grid max-w-2xl grid-cols-1 gap-2 sm:grid-cols-3 sm:divide-x sm:divide-gray-100">
+          <FeatureItem
+            icon={<BoxIcon className="h-6 w-6" />}
+            label="Vials & syringes"
+          />
+          <FeatureItem
+            icon={<StackIcon className="h-6 w-6" />}
+            label="Fits your supply"
+          />
+          <FeatureItem
+            icon={<SnowflakeIcon className="h-6 w-6" />}
+            label="Freezer, fridge, or travel"
           />
         </div>
       </div>
