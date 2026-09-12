@@ -81,25 +81,44 @@ function HeroPhoto({
   art,
   label,
   priceRange,
+  href,
 }: {
   art: ReactNode
   label: string
   priceRange?: string | null
+  href?: string
 }) {
-  return (
-    <div className="relative aspect-[16/9] w-full overflow-hidden rounded-2xl bg-gray-50">
+  const inner = (
+    <>
       <div className="flex h-full w-full items-center justify-center p-6">
         {art}
       </div>
-      <span className="absolute bottom-3 left-3 rounded-md bg-surface px-2.5 py-1 text-xs font-medium text-gray-900 shadow-sm">
+      <span className="absolute bottom-3 left-3 rounded-md bg-surface px-3.5 py-2 text-sm font-medium text-gray-900 shadow-sm">
         {label}
       </span>
       {priceRange && (
-        <span className="absolute bottom-3 right-3 rounded-md bg-accent px-2.5 py-1 text-xs font-medium text-accent-foreground shadow-sm">
+        <span className="absolute bottom-3 right-3 rounded-md bg-accent px-3.5 py-2 text-sm font-medium text-accent-foreground shadow-sm">
           {priceRange}
         </span>
       )}
-    </div>
+    </>
+  )
+
+  if (!href) {
+    return (
+      <div className="relative aspect-[16/9] w-full overflow-hidden rounded-2xl bg-gray-50">
+        {inner}
+      </div>
+    )
+  }
+
+  return (
+    <Link
+      href={href}
+      className="relative block aspect-[16/9] w-full overflow-hidden rounded-2xl bg-gray-50 transition-opacity hover:opacity-90"
+    >
+      {inner}
+    </Link>
   )
 }
 
@@ -184,11 +203,21 @@ export default async function Home() {
             art={<VialsTileArt className="h-full w-full" />}
             label="Vial cases"
             priceRange={vialPriceRange}
+            href={
+              primaryVialCategory
+                ? `/products?category_id=${primaryVialCategory.id}`
+                : undefined
+            }
           />
           <HeroPhoto
             art={<SyringesTileArt className="h-full w-full" />}
             label="Syringe cases"
             priceRange={syringePriceRange}
+            href={
+              primarySyringeCategory
+                ? `/products?category_id=${primarySyringeCategory.id}`
+                : undefined
+            }
           />
         </div>
       </div>
