@@ -1,6 +1,8 @@
 import type { ReactNode } from "react"
 import Link from "next/link"
 import { ProductTile } from "@/components/product-tile"
+import { ReviewsSection } from "@/components/reviews-section"
+import { StarRow } from "@/components/star-row"
 import { VialsTileArt, SyringesTileArt } from "@/components/category-art"
 import {
   listFeaturedProducts,
@@ -10,6 +12,7 @@ import {
   getCategoryPriceRange,
 } from "@/lib/data/products"
 import { groupCategoriesByLine } from "@/lib/category-groups"
+import { getReviewStats } from "@/lib/reviews"
 
 export const revalidate = 60
 
@@ -123,6 +126,7 @@ function HeroPhoto({
 }
 
 export default async function Home() {
+  const reviewStats = getReviewStats()
   const [{ products }, categories] = await Promise.all([
     listFeaturedProducts({ limit: 4 }),
     listCategories(),
@@ -155,6 +159,14 @@ export default async function Home() {
     <div>
       <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-12 px-4 py-10 sm:px-6 lg:grid-cols-[3fr_2fr] lg:gap-16 lg:px-8 lg:py-16">
         <div className="text-center">
+          <div className="mb-4 flex items-center justify-center gap-2 text-sm text-gray-600">
+            <StarRow rating={Math.round(reviewStats.displayRating)} />
+            <span>
+              {reviewStats.displayRating.toFixed(1)} · {reviewStats.count}{" "}
+              reviews
+            </span>
+          </div>
+
           <h1 className="font-heading text-[clamp(2.6rem,4.2vw,3.6rem)] leading-[1.05] tracking-[-0.015em] font-medium text-gray-900">
             Every vial and syringe in its place.
           </h1>
@@ -259,6 +271,8 @@ export default async function Home() {
           </div>
         </div>
       )}
+
+      <ReviewsSection />
     </div>
   )
 }
