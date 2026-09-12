@@ -88,7 +88,7 @@ export function CategoryDropdown({
         onClick={() => setOpen((v) => !v)}
         aria-expanded={open}
         aria-haspopup="true"
-        className="flex min-h-11 items-center gap-1 text-sm font-medium text-gray-900 hover:text-accent"
+        className="flex min-h-11 items-center gap-1 text-base font-medium text-gray-900 hover:text-accent"
       >
         {label}
         <svg

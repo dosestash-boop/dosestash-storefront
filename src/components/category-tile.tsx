@@ -21,7 +21,7 @@ export function CategoryTile({
       <div className="flex aspect-[4/3] items-center justify-center p-6">
         {art}
       </div>
-      <span className="border-t border-black/5 px-4 py-3 text-sm font-bold text-gray-900">
+      <span className="border-t border-black/5 px-4 py-3 text-base font-bold text-gray-900">
         {label}
       </span>
     </Link>

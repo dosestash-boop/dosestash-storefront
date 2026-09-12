@@ -17,7 +17,7 @@ export function ShopMenu({
       <CategoryDropdown label="Syringes" categories={syringeCategories} />
       <Link
         href="/products"
-        className="flex min-h-11 items-center text-sm font-medium text-gray-900 hover:text-accent"
+        className="flex min-h-11 items-center text-base font-medium text-gray-900 hover:text-accent"
       >
         Shop All
       </Link>

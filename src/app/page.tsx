@@ -126,7 +126,7 @@ export default async function Home() {
             {primarySyringeCategory && (
               <Link
                 href={`/products?category_id=${primarySyringeCategory.id}`}
-                className="inline-flex min-h-11 items-center justify-center rounded-md border-2 border-gray-900 px-6 text-sm font-medium text-gray-900 transition-colors hover:bg-gray-900 hover:text-white"
+                className="inline-flex min-h-11 items-center justify-center rounded-md border-2 border-accent px-6 text-sm font-medium text-accent transition-colors hover:bg-accent hover:text-accent-foreground"
               >
                 Shop Syringe Cases
               </Link>

@@ -18,8 +18,8 @@ export async function Navbar() {
             aria-label="Dosestash home"
             className="flex items-center gap-2"
           >
-            <LogoIcon size={28} />
-            <Wordmark className="text-lg font-medium tracking-tight" />
+            <LogoIcon size={36} />
+            <Wordmark className="text-xl font-medium tracking-tight" />
           </Link>
         </div>
 
