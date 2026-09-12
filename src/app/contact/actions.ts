@@ -44,7 +44,8 @@ export async function submitContactForm(
   try {
     await sendContactEmail({ name, email, message })
     return { status: "success" }
-  } catch {
+  } catch (err) {
+    console.error("Contact form email failed to send:", err)
     return {
       status: "error",
       error: "Something went wrong sending your message. Please try again.",
