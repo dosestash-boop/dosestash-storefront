@@ -38,6 +38,20 @@ export async function Footer() {
               ))}
             </ul>
           </nav>
+
+          <nav aria-label="Footer company navigation">
+            <h3 className="text-sm font-bold text-gray-900">Company</h3>
+            <ul className="mt-4 space-y-3">
+              <li>
+                <Link
+                  href="/reviews"
+                  className="text-sm text-gray-600 hover:text-gray-900"
+                >
+                  Reviews
+                </Link>
+              </li>
+            </ul>
+          </nav>
         </div>
 
         <div className="mt-12 border-t border-gray-100 pt-6">
