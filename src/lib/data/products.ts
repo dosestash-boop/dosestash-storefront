@@ -1,3 +1,4 @@
+import { cache } from "react"
 import { sdk } from "@/lib/medusa"
 import type { HttpTypes } from "@medusajs/types"
 import { getDefaultRegion } from "./regions"
@@ -88,15 +89,15 @@ export async function getProductByHandle(handle: string): Promise<{
   return { product: products[0] ?? null, region }
 }
 
-export async function listCategories(): Promise<
-  HttpTypes.StoreProductCategory[]
-> {
-  const { product_categories } = await sdk.store.category.list({
-    limit: 20,
-    fields: "id,name,handle",
-  })
-  return product_categories
-}
+export const listCategories = cache(
+  async (): Promise<HttpTypes.StoreProductCategory[]> => {
+    const { product_categories } = await sdk.store.category.list({
+      limit: 20,
+      fields: "id,name,handle",
+    })
+    return product_categories
+  }
+)
 
 /**
  * Picks the category with the most products from a list of candidates -
@@ -135,11 +136,11 @@ export async function getMostStockedCategory(
   return best
 }
 
-async function getCategoryPriceStats(categoryId: string): Promise<{
+const getCategoryPriceStats = cache(async (categoryId: string): Promise<{
   min: number
   max: number
   currencyCode: string
-} | null> {
+} | null> => {
   const region = await getDefaultRegion()
 
   const { products } = await sdk.store.product.list({
@@ -161,7 +162,7 @@ async function getCategoryPriceStats(categoryId: string): Promise<{
   }
 
   return min === Infinity ? null : { min, max, currencyCode }
-}
+})
 
 /**
  * Cheapest calculated price across all products in a category, formatted

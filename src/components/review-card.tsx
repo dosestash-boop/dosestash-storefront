@@ -26,6 +26,7 @@ export function ReviewCard({
         </div>
       )}
       <div className="flex min-w-0 flex-col">
+        <span className="sr-only">{review.rating} out of 5 stars</span>
         <StarRow rating={review.rating} className="h-3.5 w-3.5" />
         <p
           className={`mt-1.5 text-sm text-gray-700 ${truncate ? "line-clamp-3" : ""}`}

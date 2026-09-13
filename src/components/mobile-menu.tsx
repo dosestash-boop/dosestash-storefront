@@ -1,9 +1,13 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { createPortal } from "react-dom"
 import Link from "next/link"
 import type { HttpTypes } from "@medusajs/types"
+import { groupCategoriesByLine } from "@/lib/category-groups"
+
+const FOCUSABLE_SELECTOR =
+  'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
 
 export function MobileMenu({
   categories,
@@ -12,6 +16,10 @@ export function MobileMenu({
 }) {
   const [open, setOpen] = useState(false)
   const [mounted, setMounted] = useState(false)
+  const triggerRef = useRef<HTMLButtonElement>(null)
+  const dialogRef = useRef<HTMLDivElement>(null)
+  const { vialCategories, syringeCategories } =
+    groupCategoriesByLine(categories)
 
   useEffect(() => {
     // Portal target (document.body) only exists client-side; `open` can
@@ -23,21 +31,51 @@ export function MobileMenu({
   useEffect(() => {
     if (!open) return
 
+    const firstFocusable = dialogRef.current?.querySelector<HTMLElement>(
+      FOCUSABLE_SELECTOR
+    )
+    firstFocusable?.focus()
+
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setOpen(false)
+      if (event.key === "Escape") {
+        setOpen(false)
+        return
+      }
+
+      if (event.key !== "Tab" || !dialogRef.current) return
+
+      const focusable = Array.from(
+        dialogRef.current.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR)
+      )
+      if (focusable.length === 0) return
+
+      const first = focusable[0]
+      const last = focusable[focusable.length - 1]
+
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault()
+        last.focus()
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault()
+        first.focus()
+      }
     }
+
     document.addEventListener("keydown", onKeyDown)
     document.body.style.overflow = "hidden"
+    const trigger = triggerRef.current
 
     return () => {
       document.removeEventListener("keydown", onKeyDown)
       document.body.style.overflow = ""
+      trigger?.focus()
     }
   }, [open])
 
   return (
     <div className="sm:hidden">
       <button
+        ref={triggerRef}
         type="button"
         aria-label="Open navigation menu"
         aria-expanded={open}
@@ -77,10 +115,12 @@ export function MobileMenu({
               }`}
             />
             <div
+              ref={dialogRef}
               role="dialog"
               aria-modal="true"
               aria-label="Navigation menu"
-              className={`absolute inset-y-0 left-0 flex w-[85%] max-w-xs flex-col overflow-y-auto bg-surface shadow-xl transition-transform duration-300 ${
+              tabIndex={-1}
+              className={`absolute inset-y-0 left-0 flex w-[85%] max-w-xs flex-col overflow-y-auto bg-surface shadow-xl transition-transform duration-300 focus:outline-none ${
                 open ? "translate-x-0" : "-translate-x-full"
               }`}
             >
@@ -118,16 +158,42 @@ export function MobileMenu({
                 >
                   Shop All
                 </Link>
-                {categories.map((category) => (
-                  <Link
-                    key={category.id}
-                    href={`/products?category_id=${category.id}`}
-                    onClick={() => setOpen(false)}
-                    className="min-h-11 rounded-md px-3 py-3 text-base text-gray-700 hover:bg-gray-50"
-                  >
-                    {category.name}
-                  </Link>
-                ))}
+
+                {vialCategories.length > 0 && (
+                  <>
+                    <span className="mt-2 px-3 text-xs font-bold uppercase tracking-wide text-gray-500">
+                      Vials
+                    </span>
+                    {vialCategories.map((category) => (
+                      <Link
+                        key={category.id}
+                        href={`/products?category_id=${category.id}`}
+                        onClick={() => setOpen(false)}
+                        className="min-h-11 rounded-md px-3 py-3 text-base text-gray-700 hover:bg-gray-50"
+                      >
+                        {category.name}
+                      </Link>
+                    ))}
+                  </>
+                )}
+
+                {syringeCategories.length > 0 && (
+                  <>
+                    <span className="mt-2 px-3 text-xs font-bold uppercase tracking-wide text-gray-500">
+                      Syringes
+                    </span>
+                    {syringeCategories.map((category) => (
+                      <Link
+                        key={category.id}
+                        href={`/products?category_id=${category.id}`}
+                        onClick={() => setOpen(false)}
+                        className="min-h-11 rounded-md px-3 py-3 text-base text-gray-700 hover:bg-gray-50"
+                      >
+                        {category.name}
+                      </Link>
+                    ))}
+                  </>
+                )}
               </nav>
             </div>
           </div>,

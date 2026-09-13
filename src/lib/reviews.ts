@@ -6,6 +6,8 @@ export const reviews: Review[] = reviewsData
 
 export function getReviewStats() {
   const count = reviews.length
+  if (count === 0) return { count: 0, displayRating: 0 }
+
   const avgRating = reviews.reduce((sum, r) => sum + r.rating, 0) / count
   const displayRating = Math.floor(avgRating * 10) / 10
 

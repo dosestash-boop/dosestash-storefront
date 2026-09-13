@@ -1,3 +1,4 @@
+import type { Metadata } from "next"
 import type { ReactNode } from "react"
 import Link from "next/link"
 import { ProductTile } from "@/components/product-tile"
@@ -15,6 +16,27 @@ import { groupCategoriesByLine } from "@/lib/category-groups"
 import { getReviewStats } from "@/lib/reviews"
 
 export const revalidate = 60
+
+const SITE_URL = "https://dosestash.com"
+const SITE_DESCRIPTION =
+  "Purpose-built storage cases for insulin, peptides, and prescribed hormone therapy vials and syringes. Ships in 2-3 days in plain packaging."
+
+export const metadata: Metadata = {
+  title: "Dosestash | Vial & Syringe Storage Cases",
+  description: SITE_DESCRIPTION,
+  openGraph: {
+    title: "Dosestash | Vial & Syringe Storage Cases",
+    description: SITE_DESCRIPTION,
+    url: SITE_URL,
+    siteName: "Dosestash",
+    type: "website",
+  },
+  twitter: {
+    card: "summary",
+    title: "Dosestash | Vial & Syringe Storage Cases",
+    description: SITE_DESCRIPTION,
+  },
+}
 
 function BoxIcon({ className }: { className?: string }) {
   return (
@@ -155,17 +177,38 @@ export default async function Home() {
       : null,
   ])
 
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: "Dosestash",
+    url: SITE_URL,
+    description: SITE_DESCRIPTION,
+    ...(reviewStats.count > 0 && {
+      aggregateRating: {
+        "@type": "AggregateRating",
+        ratingValue: reviewStats.displayRating,
+        reviewCount: reviewStats.count,
+      },
+    }),
+  }
+
   return (
     <div>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      />
       <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-12 px-4 py-10 sm:px-6 lg:grid-cols-[3fr_2fr] lg:gap-16 lg:px-8 lg:py-16">
         <div className="text-center">
-          <div className="mb-4 flex items-center justify-center gap-2 text-sm text-gray-600">
-            <StarRow rating={Math.round(reviewStats.displayRating)} />
-            <span>
-              {reviewStats.displayRating.toFixed(1)} · {reviewStats.count}{" "}
-              reviews
-            </span>
-          </div>
+          {reviewStats.count > 0 && (
+            <div className="mb-4 flex items-center justify-center gap-2 text-sm text-gray-600">
+              <StarRow rating={Math.round(reviewStats.displayRating)} />
+              <span>
+                {reviewStats.displayRating.toFixed(1)} · {reviewStats.count}{" "}
+                reviews
+              </span>
+            </div>
+          )}
 
           <h1 className="font-heading text-[clamp(2.6rem,4.2vw,3.6rem)] leading-[1.05] tracking-[-0.015em] font-medium text-gray-900">
             Every vial and syringe in its place.
