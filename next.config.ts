@@ -12,6 +12,10 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "admin.dosestash.com",
       },
+      {
+        protocol: "https",
+        hostname: "pub-c0a7c3c85f4b4174b152f02dfcf3a35a.r2.dev",
+      },
     ],
   },
 };
