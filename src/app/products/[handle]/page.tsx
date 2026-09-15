@@ -4,6 +4,7 @@ import { notFound } from "next/navigation"
 import { getProductByHandle, listProducts } from "@/lib/data/products"
 import { getProductPriceInfo } from "@/lib/product-price"
 import { getProductThumbnail } from "@/lib/product-image"
+import { getProductSpecs } from "@/lib/product-specs"
 import {
   getProductReviewLine,
   getReviewsForProductTitle,
@@ -12,6 +13,7 @@ import { ProductGallery } from "@/components/product-gallery"
 import { ProductVariants } from "@/components/product-variants"
 import { ProductGrid } from "@/components/product-grid"
 import { ReviewCard } from "@/components/review-card"
+import { StarRow } from "@/components/star-row"
 
 type Props = {
   params: Promise<{ handle: string }>
@@ -59,6 +61,7 @@ export default async function ProductPage({ params }: Props) {
 
   const productReviews = getReviewsForProductTitle(product.title)
   const reviewLine = getProductReviewLine(product.title)
+  const specs = getProductSpecs(product.title)
   const reviewAggregate =
     productReviews.length > 0
       ? {
@@ -98,7 +101,7 @@ export default async function ProductPage({ params }: Props) {
   }
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+    <div className="mx-auto max-w-7xl px-4 pt-10 pb-28 sm:px-6 lg:px-8 lg:pb-10">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -135,6 +138,25 @@ export default async function ProductPage({ params }: Props) {
             <p className="mt-1 text-sm text-gray-500">{product.subtitle}</p>
           )}
 
+          {reviewAggregate && (
+            <Link
+              href="#reviews"
+              className="mt-2 flex items-center gap-1.5 text-sm text-gray-600 hover:text-gray-900"
+            >
+              <StarRow
+                rating={Math.round(reviewAggregate.average)}
+                className="h-3.5 w-3.5"
+              />
+              <span className="font-medium text-gray-900">
+                {reviewAggregate.average.toFixed(1)}
+              </span>
+              <span>
+                ({reviewAggregate.count}{" "}
+                {reviewAggregate.count === 1 ? "review" : "reviews"})
+              </span>
+            </Link>
+          )}
+
           <div className="mt-4">
             <ProductVariants product={product} />
           </div>
@@ -149,11 +171,37 @@ export default async function ProductPage({ params }: Props) {
               </p>
             </div>
           )}
+
+          {specs && (
+            <div className="mt-6 border-t border-gray-100 pt-6">
+              <h2 className="text-sm font-semibold text-gray-900">
+                Specifications
+              </h2>
+              <dl className="mt-2 grid grid-cols-[auto_1fr] gap-x-4 gap-y-2 text-sm">
+                <dt className="text-gray-500">Holds</dt>
+                <dd className="text-gray-900">
+                  {specs.capacity} &times; {specs.size} {specs.type}
+                  {specs.capacity === 1 ? "" : "s"}
+                </dd>
+                <dt className="text-gray-500">Material</dt>
+                <dd className="text-gray-900">
+                  Polymaker Panchroma Matte PLA
+                </dd>
+                <dt className="text-gray-500">Construction</dt>
+                <dd className="text-gray-900">3D printed</dd>
+                <dt className="text-gray-500">Colors</dt>
+                <dd className="text-gray-900">18 available</dd>
+              </dl>
+            </div>
+          )}
         </div>
       </div>
 
       {productReviews.length > 0 && (
-        <section className="mt-16 border-t border-gray-100 pt-10">
+        <section
+          id="reviews"
+          className="mt-16 scroll-mt-20 border-t border-gray-100 pt-10"
+        >
           <div className="mb-6 flex flex-wrap items-baseline justify-between gap-2">
             <h2 className="font-heading text-2xl font-medium tracking-tight text-gray-900">
               What customers are saying

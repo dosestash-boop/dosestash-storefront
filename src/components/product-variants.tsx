@@ -77,6 +77,18 @@ export function ProductVariants({
     setTimeout(() => setJustAdded(false), 2000)
   }
 
+  const addToCartDisabled =
+    !selectedVariant || !inStock || !canAddMore || isPending
+  const addToCartLabel = !selectedVariant
+    ? "Select options"
+    : !inStock
+      ? "Out of stock"
+      : !canAddMore
+        ? "Max in cart"
+        : justAdded
+          ? "Added"
+          : "Add to Cart"
+
   return (
     <div>
       <div className="text-2xl font-semibold text-gray-900">
@@ -100,6 +112,18 @@ export function ProductVariants({
         const isColorOption = option.title.toLowerCase().includes("color")
         const values = option.values ?? []
 
+        const isValueAvailable = (value: string) => {
+          const candidate = { ...selected, [option.id]: value }
+          const variant = variants.find((v) =>
+            v.options?.every((opt) => candidate[opt.option_id!] === opt.value)
+          )
+          if (!variant) return false
+          return (
+            variant.manage_inventory === false ||
+            (variant.inventory_quantity ?? 0) > 0
+          )
+        }
+
         const renderValueButton = (
           val: NonNullable<typeof option.values>[number]
         ) => {
@@ -107,6 +131,7 @@ export function ProductVariants({
           const swatchColor = isColorOption
             ? COLOR_SWATCHES[val.value]
             : undefined
+          const available = isValueAvailable(val.value)
           return (
             <button
               key={val.id}
@@ -117,23 +142,32 @@ export function ProductVariants({
                   [option.id]: val.value,
                 }))
               }
+              disabled={!available}
               aria-pressed={isSelected}
+              title={available ? undefined : "Sold out"}
               className={`flex min-h-11 min-w-11 items-center gap-2 rounded-md border text-sm font-medium transition-colors ${
                 isColorOption ? "px-3" : "px-4"
               } ${
-                isSelected
-                  ? "border-gray-900 bg-gray-900 text-white"
-                  : "border-gray-300 text-gray-900 hover:border-gray-900"
+                !available
+                  ? "cursor-not-allowed border-gray-200 text-gray-400 opacity-50"
+                  : isSelected
+                    ? "border-gray-900 bg-gray-900 text-white"
+                    : "border-gray-300 text-gray-900 hover:border-gray-900"
               }`}
             >
               {swatchColor && (
                 <span
                   aria-hidden="true"
-                  className="h-7 w-7 flex-none rounded-full border border-black/10"
+                  className={`h-7 w-7 flex-none rounded-full border border-black/10 ${
+                    available ? "" : "grayscale"
+                  }`}
                   style={{ backgroundColor: swatchColor }}
                 />
               )}
               {val.value}
+              {!available && (
+                <span className="text-xs font-normal">(Sold out)</span>
+              )}
             </button>
           )
         }
@@ -253,23 +287,34 @@ export function ProductVariants({
       <button
         type="button"
         onClick={handleAddToCart}
-        disabled={!selectedVariant || !inStock || !canAddMore || isPending}
+        disabled={addToCartDisabled}
         className="mt-4 flex min-h-11 w-full items-center justify-center rounded-md bg-accent px-6 text-sm font-bold text-accent-foreground transition-colors hover:bg-accent/90 disabled:cursor-not-allowed disabled:opacity-40"
       >
-        {!selectedVariant
-          ? "Select options"
-          : !inStock
-            ? "Out of stock"
-            : !canAddMore
-              ? "Max in cart"
-              : justAdded
-                ? "Added"
-                : "Add to Cart"}
+        {addToCartLabel}
       </button>
 
       <p className="mt-3 text-center text-xs text-gray-500">
         Ships in {shippingText} &middot; Plain packaging
       </p>
+
+      <div
+        className="fixed inset-x-0 bottom-0 z-40 flex items-center gap-3 border-t border-gray-200 bg-surface px-4 py-3 lg:hidden"
+        style={{ paddingBottom: "calc(0.75rem + env(safe-area-inset-bottom))" }}
+      >
+        <div className="text-base font-semibold text-gray-900">
+          {calculatedAmount !== null
+            ? formatPrice(calculatedAmount, currencyCode)
+            : "—"}
+        </div>
+        <button
+          type="button"
+          onClick={handleAddToCart}
+          disabled={addToCartDisabled}
+          className="flex min-h-11 flex-1 items-center justify-center rounded-md bg-accent px-6 text-sm font-bold text-accent-foreground transition-colors hover:bg-accent/90 disabled:cursor-not-allowed disabled:opacity-40"
+        >
+          {addToCartLabel}
+        </button>
+      </div>
     </div>
   )
 }
