@@ -7,8 +7,15 @@ import { formatPrice } from "@/lib/format-price"
 import { ProductArtPlaceholder } from "@/components/product-art-placeholder"
 
 export function CartDrawer() {
-  const { cart, isOpen, isPending, closeCart, updateItem, removeItem } =
-    useCart()
+  const {
+    cart,
+    isOpen,
+    isPending,
+    cartError,
+    closeCart,
+    updateItem,
+    removeItem,
+  } = useCart()
 
   useEffect(() => {
     if (!isOpen) return
@@ -79,6 +86,15 @@ export function CartDrawer() {
           </button>
         </div>
 
+        {cartError && (
+          <p
+            role="alert"
+            className="border-b border-amber-100 bg-amber-50 px-5 py-3 text-sm text-amber-800"
+          >
+            {cartError}
+          </p>
+        )}
+
         {items.length === 0 ? (
           <div className="flex flex-1 flex-col items-center justify-center px-6 text-center">
             <p className="text-sm font-medium text-gray-900">
@@ -90,7 +106,13 @@ export function CartDrawer() {
           </div>
         ) : (
           <ul className="flex-1 overflow-y-auto px-5 py-4">
-            {items.map((item) => (
+            {items.map((item) => {
+              const isUnmanaged = item.variant?.manage_inventory === false
+              const canIncrease =
+                isUnmanaged ||
+                item.quantity < (item.variant?.inventory_quantity ?? 0)
+
+              return (
               <li
                 key={item.id}
                 className="flex gap-4 border-b border-gray-50 py-4 first:pt-0"
@@ -151,7 +173,7 @@ export function CartDrawer() {
                       <button
                         type="button"
                         aria-label={`Increase quantity of ${item.title}`}
-                        disabled={isPending}
+                        disabled={isPending || !canIncrease}
                         onClick={() =>
                           updateItem(item.id, item.quantity + 1)
                         }
@@ -170,9 +192,15 @@ export function CartDrawer() {
                       Remove
                     </button>
                   </div>
+                  {!canIncrease && (
+                    <p className="mt-1 text-xs text-amber-600">
+                      Max available quantity in cart
+                    </p>
+                  )}
                 </div>
               </li>
-            ))}
+              )
+            })}
           </ul>
         )}
 

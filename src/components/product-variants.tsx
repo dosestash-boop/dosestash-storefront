@@ -11,7 +11,7 @@ export function ProductVariants({
 }: {
   product: HttpTypes.StoreProduct
 }) {
-  const { addItem, isPending } = useCart()
+  const { cart, addItem, isPending } = useCart()
   const [justAdded, setJustAdded] = useState(false)
   const [quantity, setQuantity] = useState(1)
 
@@ -47,7 +47,17 @@ export function ProductVariants({
   const isUnmanaged = selectedVariant?.manage_inventory === false
   const inStock = isUnmanaged || stock > 0
   const lowStock = !isUnmanaged && inStock && stock <= 5
-  const maxQuantity = isUnmanaged ? 99 : Math.max(1, stock)
+  // How many of this variant are already sitting in the cart, so the
+  // stepper can't let someone add past what's actually available.
+  const cartQuantityForVariant = selectedVariant
+    ? (cart?.items?.find((item) => item.variant_id === selectedVariant.id)
+        ?.quantity ?? 0)
+    : 0
+  const remainingStock = isUnmanaged
+    ? Infinity
+    : Math.max(0, stock - cartQuantityForVariant)
+  const canAddMore = isUnmanaged || remainingStock > 0
+  const maxQuantity = isUnmanaged ? 99 : Math.max(1, remainingStock)
   // Derived rather than reset via an effect, so switching to a variant
   // with less stock can't leave quantity above its available amount.
   const clampedQuantity = Math.min(quantity, maxQuantity)
@@ -60,7 +70,7 @@ export function ProductVariants({
   const shippingText = isCoreColor ? "2–3 days" : "2–5 days"
 
   const handleAddToCart = () => {
-    if (!selectedVariant || !inStock) return
+    if (!selectedVariant || !inStock || !canAddMore) return
     addItem(selectedVariant.id, clampedQuantity)
     setJustAdded(true)
     setQuantity(1)
@@ -224,30 +234,35 @@ export function ProductVariants({
           <span className="text-gray-500">
             Select options to see availability
           </span>
-        ) : inStock ? (
-          lowStock ? (
-            <span className="text-amber-600">Only {stock} left in stock</span>
-          ) : (
-            <span className="text-green-700">In stock</span>
-          )
-        ) : (
+        ) : !inStock ? (
           <span className="text-red-600">Out of stock</span>
+        ) : !canAddMore ? (
+          <span className="text-amber-600">
+            All {stock} in stock {stock === 1 ? "is" : "are"} already in your
+            cart
+          </span>
+        ) : lowStock ? (
+          <span className="text-amber-600">Only {stock} left in stock</span>
+        ) : (
+          <span className="text-green-700">In stock</span>
         )}
       </p>
 
       <button
         type="button"
         onClick={handleAddToCart}
-        disabled={!selectedVariant || !inStock || isPending}
+        disabled={!selectedVariant || !inStock || !canAddMore || isPending}
         className="mt-4 flex min-h-11 w-full items-center justify-center rounded-md bg-accent px-6 text-sm font-bold text-accent-foreground transition-colors hover:bg-accent/90 disabled:cursor-not-allowed disabled:opacity-40"
       >
         {!selectedVariant
           ? "Select options"
           : !inStock
             ? "Out of stock"
-            : justAdded
-              ? "Added"
-              : "Add to Cart"}
+            : !canAddMore
+              ? "Max in cart"
+              : justAdded
+                ? "Added"
+                : "Add to Cart"}
       </button>
 
       <p className="mt-3 text-center text-xs text-gray-500">

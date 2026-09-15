@@ -7,7 +7,8 @@ import type { HttpTypes } from "@medusajs/types"
 import { getDefaultRegion } from "./regions"
 
 const CART_COOKIE = "cart_id"
-const CART_FIELDS = "*items,*items.variant,*items.product,*region"
+const CART_FIELDS =
+  "*items,*items.variant,+items.variant.inventory_quantity,*items.product,*region"
 
 async function getCartId(): Promise<string | null> {
   const cookieStore = await cookies()
