@@ -249,7 +249,8 @@ export default async function Home() {
           </div>
 
           <p className="mt-5 text-sm text-gray-500">
-            Ships in 2–3 days · Plain packaging · Built to protect your vials
+            Ships in 2–3 days · Plain packaging · Vials, syringes & accessory
+            storage
           </p>
         </div>
 
