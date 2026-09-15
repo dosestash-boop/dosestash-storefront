@@ -4,7 +4,6 @@ import { notFound } from "next/navigation"
 import { getProductByHandle, listProducts } from "@/lib/data/products"
 import { getProductPriceInfo } from "@/lib/product-price"
 import { getProductThumbnail } from "@/lib/product-image"
-import { getProductSpecs } from "@/lib/product-specs"
 import {
   getProductReviewLine,
   getReviewsForProductTitle,
@@ -61,7 +60,11 @@ export default async function ProductPage({ params }: Props) {
 
   const productReviews = getReviewsForProductTitle(product.title)
   const reviewLine = getProductReviewLine(product.title)
-  const specs = getProductSpecs(product.title)
+  const hasDimensions =
+    product.width != null &&
+    product.length != null &&
+    product.height != null &&
+    product.weight != null
   const reviewAggregate =
     productReviews.length > 0
       ? {
@@ -172,25 +175,20 @@ export default async function ProductPage({ params }: Props) {
             </div>
           )}
 
-          {specs && (
+          {hasDimensions && (
             <div className="mt-6 border-t border-gray-100 pt-6">
               <h2 className="text-sm font-semibold text-gray-900">
                 Specifications
               </h2>
               <dl className="mt-2 grid grid-cols-[auto_1fr] gap-x-4 gap-y-2 text-sm">
-                <dt className="text-gray-500">Holds</dt>
-                <dd className="text-gray-900">
-                  {specs.capacity} &times; {specs.size} {specs.type}
-                  {specs.capacity === 1 ? "" : "s"}
-                </dd>
-                <dt className="text-gray-500">Material</dt>
-                <dd className="text-gray-900">
-                  Polymaker Panchroma Matte PLA
-                </dd>
-                <dt className="text-gray-500">Construction</dt>
-                <dd className="text-gray-900">3D printed</dd>
-                <dt className="text-gray-500">Colors</dt>
-                <dd className="text-gray-900">18 available</dd>
+                <dt className="text-gray-500">Width</dt>
+                <dd className="text-gray-900">{product.width} mm</dd>
+                <dt className="text-gray-500">Length</dt>
+                <dd className="text-gray-900">{product.length} mm</dd>
+                <dt className="text-gray-500">Thickness</dt>
+                <dd className="text-gray-900">{product.height} mm</dd>
+                <dt className="text-gray-500">Weight</dt>
+                <dd className="text-gray-900">{product.weight} g</dd>
               </dl>
             </div>
           )}
