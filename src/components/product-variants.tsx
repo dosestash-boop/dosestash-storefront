@@ -86,53 +86,106 @@ export function ProductVariants({
         )}
       </div>
 
-      {options.map((option) => (
-        <fieldset
-          key={option.id}
-          className="mt-6"
-          role="group"
-          aria-label={option.title}
-        >
-          <legend className="text-sm font-medium text-gray-900">
-            {option.title}
-          </legend>
-          <div className="mt-2 flex flex-wrap gap-2">
-            {(option.values ?? []).map((val) => {
-              const isSelected = selected[option.id] === val.value
-              const swatchColor = option.title.toLowerCase().includes("color")
-                ? COLOR_SWATCHES[val.value]
-                : undefined
-              return (
-                <button
-                  key={val.id}
-                  type="button"
-                  onClick={() =>
-                    setSelected((prev) => ({
-                      ...prev,
-                      [option.id]: val.value,
-                    }))
-                  }
-                  aria-pressed={isSelected}
-                  className={`flex min-h-11 min-w-11 items-center gap-2 rounded-md border px-4 text-sm font-medium transition-colors ${
-                    isSelected
-                      ? "border-gray-900 bg-gray-900 text-white"
-                      : "border-gray-300 text-gray-900 hover:border-gray-900"
-                  }`}
-                >
-                  {swatchColor && (
-                    <span
-                      aria-hidden="true"
-                      className="h-4 w-4 flex-none rounded-full border border-black/10"
-                      style={{ backgroundColor: swatchColor }}
-                    />
-                  )}
-                  {val.value}
-                </button>
-              )
-            })}
-          </div>
-        </fieldset>
-      ))}
+      {options.map((option) => {
+        const isColorOption = option.title.toLowerCase().includes("color")
+        const values = option.values ?? []
+
+        const renderValueButton = (
+          val: NonNullable<typeof option.values>[number]
+        ) => {
+          const isSelected = selected[option.id] === val.value
+          const swatchColor = isColorOption
+            ? COLOR_SWATCHES[val.value]
+            : undefined
+          return (
+            <button
+              key={val.id}
+              type="button"
+              onClick={() =>
+                setSelected((prev) => ({
+                  ...prev,
+                  [option.id]: val.value,
+                }))
+              }
+              aria-pressed={isSelected}
+              className={`flex min-h-11 min-w-11 items-center gap-2 rounded-md border px-4 text-sm font-medium transition-colors ${
+                isSelected
+                  ? "border-gray-900 bg-gray-900 text-white"
+                  : "border-gray-300 text-gray-900 hover:border-gray-900"
+              }`}
+            >
+              {swatchColor && (
+                <span
+                  aria-hidden="true"
+                  className="h-5 w-5 flex-none rounded-full border border-black/10"
+                  style={{ backgroundColor: swatchColor }}
+                />
+              )}
+              {val.value}
+            </button>
+          )
+        }
+
+        if (isColorOption) {
+          const coreValues = values.filter((v) =>
+            CORE_SHIPPING_COLORS.includes(v.value)
+          )
+          const otherValues = values.filter(
+            (v) => !CORE_SHIPPING_COLORS.includes(v.value)
+          )
+
+          return (
+            <fieldset
+              key={option.id}
+              className="mt-6"
+              role="group"
+              aria-label={option.title}
+            >
+              <legend className="text-sm font-medium text-gray-900">
+                {option.title}
+              </legend>
+
+              {coreValues.length > 0 && (
+                <div className="mt-3">
+                  <span className="text-xs font-medium text-gray-500">
+                    Ships in 2&ndash;3 days
+                  </span>
+                  <div className="mt-2 flex flex-wrap gap-2">
+                    {coreValues.map(renderValueButton)}
+                  </div>
+                </div>
+              )}
+
+              {otherValues.length > 0 && (
+                <div className="mt-4">
+                  <span className="text-xs font-medium text-gray-500">
+                    Ships in 2&ndash;5 days
+                  </span>
+                  <div className="mt-2 flex flex-wrap gap-2">
+                    {otherValues.map(renderValueButton)}
+                  </div>
+                </div>
+              )}
+            </fieldset>
+          )
+        }
+
+        return (
+          <fieldset
+            key={option.id}
+            className="mt-6"
+            role="group"
+            aria-label={option.title}
+          >
+            <legend className="text-sm font-medium text-gray-900">
+              {option.title}
+            </legend>
+            <div className="mt-2 flex flex-wrap gap-2">
+              {values.map(renderValueButton)}
+            </div>
+          </fieldset>
+        )
+      })}
 
       <div className="mt-6">
         <span className="text-sm font-medium text-gray-900">Quantity</span>
