@@ -118,7 +118,9 @@ export function ProductVariants({
                 }))
               }
               aria-pressed={isSelected}
-              className={`flex min-h-11 min-w-11 items-center gap-2 rounded-md border px-4 text-sm font-medium transition-colors ${
+              className={`flex min-h-11 min-w-11 items-center gap-2 rounded-md border text-sm font-medium transition-colors ${
+                isColorOption ? "px-3" : "px-4"
+              } ${
                 isSelected
                   ? "border-gray-900 bg-gray-900 text-white"
                   : "border-gray-300 text-gray-900 hover:border-gray-900"
@@ -127,7 +129,7 @@ export function ProductVariants({
               {swatchColor && (
                 <span
                   aria-hidden="true"
-                  className="h-5 w-5 flex-none rounded-full border border-black/10"
+                  className="h-7 w-7 flex-none rounded-full border border-black/10"
                   style={{ backgroundColor: swatchColor }}
                 />
               )}
