@@ -26,3 +26,24 @@ export function formatProductLine(productLine: string): string {
 
   return /syringe/i.test(productLine) ? titleCased : `${titleCased} Vials`
 }
+
+/**
+ * Derives the reviews.json productLine value (e.g. "3mL", "1mL syringe")
+ * from a product title like "3mL Vial Storage Case — 5 Vials", so a
+ * product page can show reviews for its specific size without needing
+ * per-product tagging in Medusa.
+ */
+export function getProductReviewLine(title: string): string | null {
+  const match = title.match(/^(\.?\d+mL)\s+(Vial|Syringe)/i)
+  if (!match) return null
+
+  const [, size, type] = match
+  return type.toLowerCase() === "vial" ? size : `${size} syringe`
+}
+
+export function getReviewsForProductTitle(title: string): Review[] {
+  const line = getProductReviewLine(title)
+  if (!line) return []
+
+  return reviews.filter((r) => r.productLine === line && r.text.trim())
+}

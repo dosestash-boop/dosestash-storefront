@@ -12,6 +12,7 @@ export function ProductVariants({
 }) {
   const { addItem, isPending } = useCart()
   const [justAdded, setJustAdded] = useState(false)
+  const [quantity, setQuantity] = useState(1)
 
   const options = product.options ?? []
   const variants = useMemo(() => product.variants ?? [], [product.variants])
@@ -45,11 +46,16 @@ export function ProductVariants({
   const isUnmanaged = selectedVariant?.manage_inventory === false
   const inStock = isUnmanaged || stock > 0
   const lowStock = !isUnmanaged && inStock && stock <= 5
+  const maxQuantity = isUnmanaged ? 99 : Math.max(1, stock)
+  // Derived rather than reset via an effect, so switching to a variant
+  // with less stock can't leave quantity above its available amount.
+  const clampedQuantity = Math.min(quantity, maxQuantity)
 
   const handleAddToCart = () => {
     if (!selectedVariant || !inStock) return
-    addItem(selectedVariant.id, 1)
+    addItem(selectedVariant.id, clampedQuantity)
     setJustAdded(true)
+    setQuantity(1)
     setTimeout(() => setJustAdded(false), 2000)
   }
 
@@ -110,6 +116,38 @@ export function ProductVariants({
         </fieldset>
       ))}
 
+      <div className="mt-6">
+        <span className="text-sm font-medium text-gray-900">Quantity</span>
+        <div className="mt-2 flex items-center gap-3">
+          <div className="flex items-center rounded-md border border-gray-300">
+            <button
+              type="button"
+              onClick={() => setQuantity((q) => Math.max(1, q - 1))}
+              disabled={clampedQuantity <= 1}
+              aria-label="Decrease quantity"
+              className="flex h-11 w-11 items-center justify-center text-lg text-gray-700 disabled:cursor-not-allowed disabled:opacity-40"
+            >
+              &minus;
+            </button>
+            <span
+              className="flex h-11 w-10 items-center justify-center text-sm font-medium text-gray-900"
+              aria-live="polite"
+            >
+              {clampedQuantity}
+            </span>
+            <button
+              type="button"
+              onClick={() => setQuantity((q) => Math.min(maxQuantity, q + 1))}
+              disabled={clampedQuantity >= maxQuantity}
+              aria-label="Increase quantity"
+              className="flex h-11 w-11 items-center justify-center text-lg text-gray-700 disabled:cursor-not-allowed disabled:opacity-40"
+            >
+              +
+            </button>
+          </div>
+        </div>
+      </div>
+
       <p className="mt-6 text-sm" aria-live="polite">
         {!selectedVariant ? (
           <span className="text-gray-500">
@@ -140,6 +178,10 @@ export function ProductVariants({
               ? "Added"
               : "Add to Cart"}
       </button>
+
+      <p className="mt-3 text-center text-xs text-gray-500">
+        Ships in 2&ndash;3 days &middot; Plain packaging
+      </p>
     </div>
   )
 }

@@ -4,9 +4,14 @@ import { notFound } from "next/navigation"
 import { getProductByHandle, listProducts } from "@/lib/data/products"
 import { getProductPriceInfo } from "@/lib/product-price"
 import { getProductThumbnail } from "@/lib/product-image"
+import {
+  getProductReviewLine,
+  getReviewsForProductTitle,
+} from "@/lib/reviews"
 import { ProductGallery } from "@/components/product-gallery"
 import { ProductVariants } from "@/components/product-variants"
 import { ProductGrid } from "@/components/product-grid"
+import { ReviewCard } from "@/components/review-card"
 
 type Props = {
   params: Promise<{ handle: string }>
@@ -52,6 +57,18 @@ export default async function ProductPage({ params }: Props) {
       )
     : []
 
+  const productReviews = getReviewsForProductTitle(product.title)
+  const reviewLine = getProductReviewLine(product.title)
+  const reviewAggregate =
+    productReviews.length > 0
+      ? {
+          count: productReviews.length,
+          average:
+            productReviews.reduce((sum, r) => sum + r.rating, 0) /
+            productReviews.length,
+        }
+      : null
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Product",
@@ -71,6 +88,13 @@ export default async function ProductPage({ params }: Props) {
             : "https://schema.org/OutOfStock",
         }
       : undefined,
+    ...(reviewAggregate && {
+      aggregateRating: {
+        "@type": "AggregateRating",
+        ratingValue: reviewAggregate.average,
+        reviewCount: reviewAggregate.count,
+      },
+    }),
   }
 
   return (
@@ -127,6 +151,29 @@ export default async function ProductPage({ params }: Props) {
           )}
         </div>
       </div>
+
+      {productReviews.length > 0 && (
+        <section className="mt-16 border-t border-gray-100 pt-10">
+          <div className="mb-6 flex flex-wrap items-baseline justify-between gap-2">
+            <h2 className="font-heading text-2xl font-medium tracking-tight text-gray-900">
+              What customers are saying
+            </h2>
+            {reviewLine && (
+              <Link
+                href={`/reviews?line=${encodeURIComponent(reviewLine)}`}
+                className="text-sm font-medium text-gray-600 hover:text-gray-900"
+              >
+                See all reviews
+              </Link>
+            )}
+          </div>
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {productReviews.slice(0, 4).map((review) => (
+              <ReviewCard key={review.id} review={review} />
+            ))}
+          </div>
+        </section>
+      )}
 
       {related.length > 0 && (
         <section className="mt-16 border-t border-gray-100 pt-10">
