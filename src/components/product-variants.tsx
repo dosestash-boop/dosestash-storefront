@@ -4,6 +4,7 @@ import { useMemo, useState } from "react"
 import type { HttpTypes } from "@medusajs/types"
 import { formatPrice } from "@/lib/format-price"
 import { useCart } from "@/components/cart/cart-context"
+import { COLOR_SWATCHES, CORE_SHIPPING_COLORS } from "@/lib/color-swatches"
 
 export function ProductVariants({
   product,
@@ -51,6 +52,13 @@ export function ProductVariants({
   // with less stock can't leave quantity above its available amount.
   const clampedQuantity = Math.min(quantity, maxQuantity)
 
+  const colorOption = options.find((o) => o.title.toLowerCase().includes("color"))
+  const selectedColor = colorOption ? selected[colorOption.id] : undefined
+  const isCoreColor = selectedColor
+    ? CORE_SHIPPING_COLORS.includes(selectedColor)
+    : true
+  const shippingText = isCoreColor ? "2–3 days" : "2–5 days"
+
   const handleAddToCart = () => {
     if (!selectedVariant || !inStock) return
     addItem(selectedVariant.id, clampedQuantity)
@@ -91,6 +99,9 @@ export function ProductVariants({
           <div className="mt-2 flex flex-wrap gap-2">
             {(option.values ?? []).map((val) => {
               const isSelected = selected[option.id] === val.value
+              const swatchColor = option.title.toLowerCase().includes("color")
+                ? COLOR_SWATCHES[val.value]
+                : undefined
               return (
                 <button
                   key={val.id}
@@ -102,12 +113,19 @@ export function ProductVariants({
                     }))
                   }
                   aria-pressed={isSelected}
-                  className={`min-h-11 min-w-11 rounded-md border px-4 text-sm font-medium transition-colors ${
+                  className={`flex min-h-11 min-w-11 items-center gap-2 rounded-md border px-4 text-sm font-medium transition-colors ${
                     isSelected
                       ? "border-gray-900 bg-gray-900 text-white"
                       : "border-gray-300 text-gray-900 hover:border-gray-900"
                   }`}
                 >
+                  {swatchColor && (
+                    <span
+                      aria-hidden="true"
+                      className="h-4 w-4 flex-none rounded-full border border-black/10"
+                      style={{ backgroundColor: swatchColor }}
+                    />
+                  )}
                   {val.value}
                 </button>
               )
@@ -180,7 +198,7 @@ export function ProductVariants({
       </button>
 
       <p className="mt-3 text-center text-xs text-gray-500">
-        Ships in 2&ndash;3 days &middot; Plain packaging
+        Ships in {shippingText} &middot; Plain packaging
       </p>
     </div>
   )
