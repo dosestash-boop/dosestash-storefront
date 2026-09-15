@@ -3,6 +3,7 @@ import Link from "next/link"
 import { notFound } from "next/navigation"
 import { getProductByHandle, listProducts } from "@/lib/data/products"
 import { getProductPriceInfo } from "@/lib/product-price"
+import { getProductThumbnail } from "@/lib/product-image"
 import { ProductGallery } from "@/components/product-gallery"
 import { ProductVariants } from "@/components/product-variants"
 import { ProductGrid } from "@/components/product-grid"
@@ -21,6 +22,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const description =
     product.description ?? `Shop ${product.title} at Dosestash.`
+  const thumbnail = getProductThumbnail(product)
 
   return {
     title: product.title,
@@ -28,7 +30,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     openGraph: {
       title: product.title,
       description,
-      images: product.thumbnail ? [product.thumbnail] : undefined,
+      images: thumbnail ? [thumbnail] : undefined,
     },
   }
 }

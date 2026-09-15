@@ -195,17 +195,13 @@ export async function getCategoryPriceRange(
 }
 
 export type ProductFilters = {
-  categoryId?: string
+  categoryId?: string | string[]
   sizes?: string[]
-  colors?: string[]
-  priceMin?: number
-  priceMax?: number
+  sortBy?: "price_asc" | "price_desc"
 }
 
 export type FilterFacets = {
   sizes: { value: string; count: number }[]
-  colors: { value: string; count: number }[]
-  priceBounds: { min: number; max: number } | null
 }
 
 function getOptionValues(
@@ -234,29 +230,24 @@ export async function listFilteredProducts({
 }> {
   const region = await getDefaultRegion()
 
+  const categoryIds = filters.categoryId
+    ? Array.isArray(filters.categoryId)
+      ? filters.categoryId
+      : [filters.categoryId]
+    : undefined
+
   const { products: categoryProducts } = await sdk.store.product.list({
     limit: FILTER_FETCH_LIMIT,
     region_id: region?.id,
-    category_id: filters.categoryId ? [filters.categoryId] : undefined,
+    category_id: categoryIds,
     fields: PRODUCT_FILTERABLE_FIELDS,
   })
 
   const sizeCounts = new Map<string, number>()
-  const colorCounts = new Map<string, number>()
-  let priceMin = Infinity
-  let priceMax = -Infinity
 
   for (const product of categoryProducts) {
     for (const size of getOptionValues(product, "size")) {
       sizeCounts.set(size, (sizeCounts.get(size) ?? 0) + 1)
-    }
-    for (const color of getOptionValues(product, "color")) {
-      colorCounts.set(color, (colorCounts.get(color) ?? 0) + 1)
-    }
-    const priceInfo = getProductPriceInfo(product)
-    if (priceInfo) {
-      priceMin = Math.min(priceMin, priceInfo.minCalculatedPrice)
-      priceMax = Math.max(priceMax, priceInfo.minCalculatedPrice)
     }
   }
 
@@ -264,11 +255,6 @@ export async function listFilteredProducts({
     sizes: [...sizeCounts.entries()]
       .map(([value, count]) => ({ value, count }))
       .sort((a, b) => a.value.localeCompare(b.value)),
-    colors: [...colorCounts.entries()]
-      .map(([value, count]) => ({ value, count }))
-      .sort((a, b) => a.value.localeCompare(b.value)),
-    priceBounds:
-      priceMin === Infinity ? null : { min: priceMin, max: priceMax },
   }
 
   const filtered = categoryProducts.filter((product) => {
@@ -279,27 +265,17 @@ export async function listFilteredProducts({
       }
     }
 
-    if (filters.colors?.length) {
-      const productColors = getOptionValues(product, "color")
-      if (!filters.colors.some((color) => productColors.includes(color))) {
-        return false
-      }
-    }
-
-    if (filters.priceMin !== undefined || filters.priceMax !== undefined) {
-      const priceInfo = getProductPriceInfo(product)
-      const price = priceInfo?.minCalculatedPrice
-      if (price === undefined) return false
-      if (filters.priceMin !== undefined && price < filters.priceMin) {
-        return false
-      }
-      if (filters.priceMax !== undefined && price > filters.priceMax) {
-        return false
-      }
-    }
-
     return true
   })
+
+  if (filters.sortBy) {
+    const direction = filters.sortBy === "price_asc" ? 1 : -1
+    filtered.sort((a, b) => {
+      const priceA = getProductPriceInfo(a)?.minCalculatedPrice ?? 0
+      const priceB = getProductPriceInfo(b)?.minCalculatedPrice ?? 0
+      return (priceA - priceB) * direction
+    })
+  }
 
   return {
     products: filtered.slice(offset, offset + limit),

@@ -3,6 +3,7 @@ import Link from "next/link"
 import type { HttpTypes } from "@medusajs/types"
 import { getProductPriceInfo } from "@/lib/product-price"
 import { formatPrice } from "@/lib/format-price"
+import { getProductThumbnail } from "@/lib/product-image"
 import { ProductArtPlaceholder } from "./product-art-placeholder"
 
 export function ProductTile({
@@ -11,6 +12,7 @@ export function ProductTile({
   product: HttpTypes.StoreProduct
 }) {
   const priceInfo = getProductPriceInfo(product)
+  const thumbnail = getProductThumbnail(product)
 
   return (
     <Link
@@ -18,9 +20,9 @@ export function ProductTile({
       className="group flex flex-col overflow-hidden rounded-2xl bg-accent-soft transition-colors hover:bg-accent-soft/70"
     >
       <div className="aspect-square w-full overflow-hidden">
-        {product.thumbnail ? (
+        {thumbnail ? (
           <Image
-            src={product.thumbnail}
+            src={thumbnail}
             alt={product.title}
             width={600}
             height={600}

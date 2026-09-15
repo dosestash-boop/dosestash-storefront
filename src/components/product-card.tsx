@@ -3,6 +3,7 @@ import Link from "next/link"
 import type { HttpTypes } from "@medusajs/types"
 import { getProductPriceInfo } from "@/lib/product-price"
 import { formatPrice } from "@/lib/format-price"
+import { getProductThumbnail } from "@/lib/product-image"
 import { ProductArtPlaceholder } from "./product-art-placeholder"
 
 export function ProductCard({
@@ -11,6 +12,7 @@ export function ProductCard({
   product: HttpTypes.StoreProduct
 }) {
   const priceInfo = getProductPriceInfo(product)
+  const thumbnail = getProductThumbnail(product)
 
   return (
     <article className="group">
@@ -19,9 +21,9 @@ export function ProductCard({
         className="block focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900"
       >
         <div className="aspect-square w-full overflow-hidden rounded-lg bg-gray-100">
-          {product.thumbnail ? (
+          {thumbnail ? (
             <Image
-              src={product.thumbnail}
+              src={thumbnail}
               alt={product.title}
               width={600}
               height={600}

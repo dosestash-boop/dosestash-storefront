@@ -1,28 +1,21 @@
+import Link from "next/link"
 import { listFilteredProducts, listCategories } from "@/lib/data/products"
+import { groupCategoriesByLine } from "@/lib/category-groups"
 import { ProductGrid } from "@/components/product-grid"
 import { Pagination } from "@/components/pagination"
-import { ProductFiltersPanel } from "@/components/product-filters"
 
 const PAGE_SIZE = 12
 
-function toArray(value: string | string[] | undefined): string[] | undefined {
-  if (value === undefined) return undefined
-  return Array.isArray(value) ? value : [value]
-}
-
-function toNumber(value: string | string[] | undefined): number | undefined {
-  const raw = Array.isArray(value) ? value[0] : value
-  const parsed = Number(raw)
-  return raw !== undefined && !Number.isNaN(parsed) ? parsed : undefined
-}
+const SORT_OPTIONS = [
+  { value: "price_asc", label: "Price: Low to High" },
+  { value: "price_desc", label: "Price: High to Low" },
+] as const
 
 export type ProductListingSearchParams = {
   page?: string
   category_id?: string
-  size?: string | string[]
-  color?: string | string[]
-  price_min?: string
-  price_max?: string
+  type?: string
+  sort?: string
 }
 
 export async function ProductListing({
@@ -41,61 +34,150 @@ export async function ProductListing({
   const currentPage = Math.max(1, Number(searchParams.page) || 1)
   const offset = (currentPage - 1) * PAGE_SIZE
 
-  const filters = {
-    categoryId: searchParams.category_id,
-    sizes: toArray(searchParams.size),
-    colors: toArray(searchParams.color),
-    priceMin: toNumber(searchParams.price_min),
-    priceMax: toNumber(searchParams.price_max),
+  const categories = await listCategories()
+  const { vialCategories, syringeCategories } =
+    groupCategoriesByLine(categories)
+
+  // Vials/Syringes tabs only make sense when no specific size category is
+  // already selected (e.g. arrived here via the navbar megamenu).
+  const showTypeTabs = !searchParams.category_id
+  const activeType = showTypeTabs ? searchParams.type : undefined
+
+  let categoryIdFilter: string | string[] | undefined = searchParams.category_id
+  if (activeType === "vial") {
+    categoryIdFilter = vialCategories.map((c) => c.id)
+  } else if (activeType === "syringe") {
+    categoryIdFilter = syringeCategories.map((c) => c.id)
   }
 
-  const [{ products, count, facets, region }, categories] = await Promise.all(
-    [
-      listFilteredProducts({ filters, limit: PAGE_SIZE, offset }),
-      listCategories(),
-    ]
-  )
+  const sortParam = searchParams.sort
+  const sortBy: "price_asc" | "price_desc" | undefined =
+    sortParam === "price_asc" || sortParam === "price_desc"
+      ? sortParam
+      : undefined
 
-  const activeCategory = categories.find((c) => c.id === filters.categoryId)
+  const filters = {
+    categoryId: categoryIdFilter,
+    sortBy,
+  }
+
+  const { products, count } = await listFilteredProducts({
+    filters,
+    limit: PAGE_SIZE,
+    offset,
+  })
+
+  const activeCategory = categories.find(
+    (c) => c.id === searchParams.category_id
+  )
   const totalPages = Math.max(1, Math.ceil(count / PAGE_SIZE))
+
+  const heroHeading =
+    heading ??
+    activeCategory?.name ??
+    (activeType === "vial"
+      ? "Vials"
+      : activeType === "syringe"
+        ? "Syringes"
+        : "Shop All")
+
+  const buildHref = (overrides: Record<string, string | undefined>) => {
+    const params = new URLSearchParams()
+    if (searchParams.category_id) {
+      params.set("category_id", searchParams.category_id)
+    }
+    if (searchParams.type) params.set("type", searchParams.type)
+    if (searchParams.sort) params.set("sort", searchParams.sort)
+    for (const [key, value] of Object.entries(overrides)) {
+      if (value === undefined) {
+        params.delete(key)
+      } else {
+        params.set(key, value)
+      }
+    }
+    const qs = params.toString()
+    return qs ? `${basePath}?${qs}` : basePath
+  }
 
   return (
     <div>
-      <div className="mb-10">
+      <div className="mb-8">
         <HeadingTag className="font-heading text-3xl font-medium tracking-tight text-gray-900">
-          {heading ?? (activeCategory ? activeCategory.name : "Shop All")}
+          {heroHeading}
         </HeadingTag>
         <p className="mt-2 text-sm text-gray-500">
           {count} {count === 1 ? "product" : "products"}
         </p>
       </div>
 
-      <div className="grid grid-cols-1 gap-10 lg:grid-cols-[220px_1fr]">
-        <aside>
-          <ProductFiltersPanel
-            facets={facets}
-            active={filters}
-            currencyCode={region?.currency_code ?? "eur"}
-          />
-        </aside>
+      <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
+        {showTypeTabs ? (
+          <div className="flex flex-wrap gap-2">
+            <Link
+              href={buildHref({ type: undefined })}
+              className={`rounded-full border px-4 py-1.5 text-sm font-medium ${
+                !activeType
+                  ? "border-accent bg-accent text-accent-foreground"
+                  : "border-gray-200 text-gray-700 hover:border-gray-300"
+              }`}
+            >
+              All
+            </Link>
+            <Link
+              href={buildHref({ type: "vial" })}
+              className={`rounded-full border px-4 py-1.5 text-sm font-medium ${
+                activeType === "vial"
+                  ? "border-accent bg-accent text-accent-foreground"
+                  : "border-gray-200 text-gray-700 hover:border-gray-300"
+              }`}
+            >
+              Vials
+            </Link>
+            <Link
+              href={buildHref({ type: "syringe" })}
+              className={`rounded-full border px-4 py-1.5 text-sm font-medium ${
+                activeType === "syringe"
+                  ? "border-accent bg-accent text-accent-foreground"
+                  : "border-gray-200 text-gray-700 hover:border-gray-300"
+              }`}
+            >
+              Syringes
+            </Link>
+          </div>
+        ) : (
+          <div />
+        )}
 
-        <div>
-          <ProductGrid products={products} />
-
-          <Pagination
-            currentPage={currentPage}
-            totalPages={totalPages}
-            basePath={basePath}
-            searchParams={{
-              category_id: filters.categoryId,
-              size: filters.sizes,
-              color: filters.colors,
-              price_min: searchParams.price_min,
-              price_max: searchParams.price_max,
-            }}
-          />
+        <div className="flex items-center gap-2 text-sm">
+          <span className="text-gray-500">Sort:</span>
+          {SORT_OPTIONS.map((option) => (
+            <Link
+              key={option.value}
+              href={buildHref({ sort: option.value })}
+              className={`rounded-md px-3 py-1.5 font-medium ${
+                sortBy === option.value
+                  ? "bg-accent text-accent-foreground"
+                  : "text-gray-600 hover:bg-gray-100"
+              }`}
+            >
+              {option.label}
+            </Link>
+          ))}
         </div>
       </div>
+
+      <ProductGrid products={products} />
+
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        basePath={basePath}
+        searchParams={{
+          category_id: searchParams.category_id,
+          type: searchParams.type,
+          sort: searchParams.sort,
+        }}
+      />
     </div>
   )
 }
