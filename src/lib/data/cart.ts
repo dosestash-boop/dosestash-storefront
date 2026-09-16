@@ -26,6 +26,11 @@ async function setCartId(cartId: string) {
   })
 }
 
+async function clearCartId() {
+  const cookieStore = await cookies()
+  cookieStore.delete(CART_COOKIE)
+}
+
 export async function getCart(): Promise<HttpTypes.StoreCart | null> {
   const cartId = await getCartId()
   if (!cartId) return null
@@ -34,8 +39,19 @@ export async function getCart(): Promise<HttpTypes.StoreCart | null> {
     const { cart } = await sdk.store.cart.retrieve(cartId, {
       fields: CART_FIELDS,
     })
+
+    // A cart created against a region that's since been removed (e.g. the
+    // old EUR region) can't complete checkout — treat it as stale rather
+    // than letting a returning visitor's old cookie dead-end at checkout.
+    const region = await getDefaultRegion()
+    if (region && cart.region_id !== region.id) {
+      await clearCartId()
+      return null
+    }
+
     return cart
   } catch {
+    await clearCartId()
     return null
   }
 }

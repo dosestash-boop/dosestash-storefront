@@ -108,11 +108,6 @@ export function CartDrawer() {
         ) : (
           <ul className="flex-1 overflow-y-auto px-5 py-4">
             {items.map((item) => {
-              const isUnmanaged = item.variant?.manage_inventory === false
-              const canIncrease =
-                isUnmanaged ||
-                item.quantity < (item.variant?.inventory_quantity ?? 0)
-
               return (
               <li
                 key={item.id}
@@ -174,7 +169,7 @@ export function CartDrawer() {
                       <button
                         type="button"
                         aria-label={`Increase quantity of ${item.title}`}
-                        disabled={isPending || !canIncrease}
+                        disabled={isPending}
                         onClick={() =>
                           updateItem(item.id, item.quantity + 1)
                         }
@@ -193,11 +188,6 @@ export function CartDrawer() {
                       Remove
                     </button>
                   </div>
-                  {!canIncrease && (
-                    <p className="mt-1 text-xs text-amber-600">
-                      Max available quantity in cart
-                    </p>
-                  )}
                 </div>
               </li>
               )

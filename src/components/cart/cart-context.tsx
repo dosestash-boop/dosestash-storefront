@@ -76,8 +76,13 @@ export function CartProvider({ children }: { children: ReactNode }) {
         const updated = await updateCartItem({ lineItemId, quantity })
         setCart(updated)
         setCartError(null)
-      } catch {
-        setCartError("Couldn't update that item. Please try again.")
+      } catch (err) {
+        const message = err instanceof Error ? err.message : ""
+        setCartError(
+          message.toLowerCase().includes("inventory")
+            ? "That's all we have in stock for this item."
+            : "Couldn't update that item. Please try again."
+        )
       }
     })
   }
