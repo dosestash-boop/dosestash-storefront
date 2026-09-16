@@ -33,7 +33,7 @@ export function CartDrawer() {
   }, [isOpen, closeCart])
 
   const items = cart?.items ?? []
-  const currencyCode = cart?.currency_code ?? "eur"
+  const currencyCode = cart?.currency_code ?? "usd"
 
   return (
     <div
