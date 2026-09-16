@@ -8,7 +8,7 @@ import { getDefaultRegion } from "./regions"
 
 const CART_COOKIE = "cart_id"
 const CART_FIELDS =
-  "*items,*items.variant,+items.variant.inventory_quantity,*items.product,*region"
+  "*items,*items.variant,+items.variant.inventory_quantity,*items.product,*region,*shipping_address,*billing_address,*shipping_methods,*payment_collection.payment_sessions"
 
 async function getCartId(): Promise<string | null> {
   const cookieStore = await cookies()
@@ -103,4 +103,88 @@ export async function removeCartItem({
   })
   revalidatePath("/", "layout")
   return parent ?? null
+}
+
+export async function updateCartDetails({
+  email,
+  shippingAddress,
+}: {
+  email: string
+  shippingAddress: HttpTypes.StoreAddAddress
+}): Promise<HttpTypes.StoreCart> {
+  const cartId = await getCartId()
+  if (!cartId) throw new Error("No active cart")
+
+  const { cart } = await sdk.store.cart.update(
+    cartId,
+    {
+      email,
+      shipping_address: shippingAddress,
+      billing_address: shippingAddress,
+    },
+    { fields: CART_FIELDS }
+  )
+  return cart
+}
+
+export async function listShippingOptions(): Promise<
+  HttpTypes.StoreCartShippingOption[]
+> {
+  const cartId = await getCartId()
+  if (!cartId) return []
+
+  const { shipping_options } = await sdk.store.fulfillment.listCartOptions({
+    cart_id: cartId,
+  })
+  return shipping_options
+}
+
+export async function addShippingMethod({
+  optionId,
+}: {
+  optionId: string
+}): Promise<HttpTypes.StoreCart> {
+  const cartId = await getCartId()
+  if (!cartId) throw new Error("No active cart")
+
+  const { cart } = await sdk.store.cart.addShippingMethod(
+    cartId,
+    { option_id: optionId },
+    { fields: CART_FIELDS }
+  )
+  return cart
+}
+
+export async function listPaymentProviders(
+  regionId: string
+): Promise<HttpTypes.StorePaymentProvider[]> {
+  const { payment_providers } = await sdk.store.payment.listPaymentProviders({
+    region_id: regionId,
+  })
+  return payment_providers
+}
+
+export async function initiatePaymentSession({
+  cart,
+  providerId,
+}: {
+  cart: HttpTypes.StoreCart
+  providerId: string
+}): Promise<HttpTypes.StorePaymentCollectionResponse> {
+  return sdk.store.payment.initiatePaymentSession(cart, {
+    provider_id: providerId,
+  })
+}
+
+export async function completeCart(): Promise<HttpTypes.StoreCompleteCartResponse> {
+  const cartId = await getCartId()
+  if (!cartId) throw new Error("No active cart")
+
+  const result = await sdk.store.cart.complete(cartId)
+  if (result.type === "order") {
+    const cookieStore = await cookies()
+    cookieStore.delete(CART_COOKIE)
+    revalidatePath("/", "layout")
+  }
+  return result
 }

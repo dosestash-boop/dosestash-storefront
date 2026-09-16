@@ -2,6 +2,7 @@
 
 import { useEffect } from "react"
 import Image from "next/image"
+import Link from "next/link"
 import { useCart } from "./cart-context"
 import { formatPrice } from "@/lib/format-price"
 import { ProductArtPlaceholder } from "@/components/product-art-placeholder"
@@ -208,8 +209,15 @@ export function CartDrawer() {
           <div className="border-t border-gray-100 px-5 py-4">
             <div className="flex items-center justify-between text-sm font-bold text-gray-900">
               <span>Subtotal</span>
-              <span>{formatPrice(cart?.subtotal ?? 0, currencyCode)}</span>
+              <span>{formatPrice(cart?.item_subtotal ?? 0, currencyCode)}</span>
             </div>
+            <Link
+              href="/checkout"
+              onClick={closeCart}
+              className="mt-3 flex min-h-11 w-full items-center justify-center rounded-md bg-accent px-6 text-sm font-bold text-accent-foreground transition-colors hover:bg-accent/90"
+            >
+              Checkout
+            </Link>
           </div>
         )}
       </div>
