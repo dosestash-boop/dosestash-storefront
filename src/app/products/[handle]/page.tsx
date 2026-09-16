@@ -4,6 +4,7 @@ import { notFound } from "next/navigation"
 import { getProductByHandle, listProducts } from "@/lib/data/products"
 import { getProductPriceInfo } from "@/lib/product-price"
 import { getProductThumbnail } from "@/lib/product-image"
+import { formatMillimeters, formatGrams } from "@/lib/format-dimensions"
 import {
   getProductReviewLine,
   getReviewsForProductTitle,
@@ -182,13 +183,19 @@ export default async function ProductPage({ params }: Props) {
               </h2>
               <dl className="mt-2 grid grid-cols-[auto_1fr] gap-x-4 gap-y-2 text-sm">
                 <dt className="text-gray-500">Width</dt>
-                <dd className="text-gray-900">{product.width} mm</dd>
+                <dd className="text-gray-900">
+                  {formatMillimeters(product.width!)}
+                </dd>
                 <dt className="text-gray-500">Length</dt>
-                <dd className="text-gray-900">{product.length} mm</dd>
+                <dd className="text-gray-900">
+                  {formatMillimeters(product.length!)}
+                </dd>
                 <dt className="text-gray-500">Thickness</dt>
-                <dd className="text-gray-900">{product.height} mm</dd>
+                <dd className="text-gray-900">
+                  {formatMillimeters(product.height!)}
+                </dd>
                 <dt className="text-gray-500">Weight</dt>
-                <dd className="text-gray-900">{product.weight} g</dd>
+                <dd className="text-gray-900">{formatGrams(product.weight!)}</dd>
               </dl>
             </div>
           )}
