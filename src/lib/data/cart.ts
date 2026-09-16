@@ -5,6 +5,7 @@ import { cookies } from "next/headers"
 import { sdk } from "@/lib/medusa"
 import type { HttpTypes } from "@medusajs/types"
 import { getDefaultRegion } from "./regions"
+import { sendOrderConfirmationEmail } from "@/lib/mail"
 
 const CART_COOKIE = "cart_id"
 const CART_FIELDS =
@@ -196,11 +197,19 @@ export async function completeCart(): Promise<HttpTypes.StoreCompleteCartRespons
   const cartId = await getCartId()
   if (!cartId) throw new Error("No active cart")
 
-  const result = await sdk.store.cart.complete(cartId)
+  const result = await sdk.store.cart.complete(cartId, {
+    fields: "*items,*shipping_address",
+  })
   if (result.type === "order") {
     const cookieStore = await cookies()
     cookieStore.delete(CART_COOKIE)
     revalidatePath("/", "layout")
+
+    try {
+      await sendOrderConfirmationEmail(result.order)
+    } catch (err) {
+      console.error("Failed to send order confirmation email", err)
+    }
   }
   return result
 }
