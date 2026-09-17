@@ -62,7 +62,7 @@ export default async function OrderConfirmationPage({ params }: Props) {
           </div>
           <div className="flex items-center justify-between text-gray-600">
             <span>Shipping</span>
-            <span>{formatPrice(order.shipping_total ?? 0, currencyCode)}</span>
+            <span>{formatPrice(order.shipping_subtotal ?? 0, currencyCode)}</span>
           </div>
           {order.tax_total != null && order.tax_total > 0 && (
             <div className="flex items-center justify-between text-gray-600">

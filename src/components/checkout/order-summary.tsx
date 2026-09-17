@@ -58,7 +58,7 @@ export function OrderSummary({ cart }: { cart: HttpTypes.StoreCart }) {
           <span>Shipping</span>
           <span>
             {cart.shipping_methods?.length
-              ? formatPrice(cart.shipping_total ?? 0, currencyCode)
+              ? formatPrice(cart.shipping_subtotal ?? 0, currencyCode)
               : "—"}
           </span>
         </div>

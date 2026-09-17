@@ -67,6 +67,11 @@ export async function sendOrderConfirmationEmail(order: HttpTypes.StoreOrder) {
       }\n${address.city}, ${address.province?.toUpperCase()} ${address.postal_code}`
     : ""
 
+  const taxLine =
+    order.tax_total != null && order.tax_total > 0
+      ? `Tax: ${formatPrice(order.tax_total, currencyCode)}\n`
+      : ""
+
   const text = `Thanks for your order, ${order.shipping_address?.first_name ?? ""}!
 
 Order #${order.display_id}
@@ -75,8 +80,8 @@ Items:
 ${itemLines}
 
 Subtotal: ${formatPrice(order.item_subtotal ?? 0, currencyCode)}
-Shipping: ${formatPrice(order.shipping_total ?? 0, currencyCode)}
-Total: ${formatPrice(order.total ?? 0, currencyCode)}
+Shipping: ${formatPrice(order.shipping_subtotal ?? 0, currencyCode)}
+${taxLine}Total: ${formatPrice(order.total ?? 0, currencyCode)}
 
 Shipping to:
 ${addressBlock}
@@ -114,8 +119,16 @@ Questions? Just reply to this email.`
         </tr>
         <tr>
           <td style="padding:2px 0;color:#6b6455;">Shipping</td>
-          <td style="padding:2px 0;text-align:right;color:#6b6455;">${formatPrice(order.shipping_total ?? 0, currencyCode)}</td>
+          <td style="padding:2px 0;text-align:right;color:#6b6455;">${formatPrice(order.shipping_subtotal ?? 0, currencyCode)}</td>
         </tr>
+        ${
+          order.tax_total != null && order.tax_total > 0
+            ? `<tr>
+          <td style="padding:2px 0;color:#6b6455;">Tax</td>
+          <td style="padding:2px 0;text-align:right;color:#6b6455;">${formatPrice(order.tax_total, currencyCode)}</td>
+        </tr>`
+            : ""
+        }
         <tr>
           <td style="padding:8px 0 0;font-weight:600;">Total</td>
           <td style="padding:8px 0 0;text-align:right;font-weight:600;">${formatPrice(order.total ?? 0, currencyCode)}</td>
