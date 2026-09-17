@@ -193,9 +193,105 @@ export async function initiatePaymentSession({
   })
 }
 
+/**
+ * Multiple products share the same underlying color inventory (e.g. a
+ * 5-vial case and a 100-vial case both draw from the same "Charcoal
+ * Black" filament pool, at different required_quantity rates). Medusa
+ * validates each cart line's stock against that shared pool
+ * independently, so two different products in one cart can each look
+ * individually valid while together exceeding what's actually in stock.
+ * This re-checks the combined demand per shared pool before completing.
+ *
+ * Returns the color name to block on, or null if everything fits.
+ */
+async function findOversoldColor(cartId: string): Promise<string | null> {
+  const { cart } = await sdk.store.cart.retrieve(cartId, {
+    fields: "id,*items,*items.variant,*items.variant.inventory_items",
+  })
+  const items = cart.items ?? []
+  if (items.length === 0) return null
+
+  const productIds = [...new Set(items.map((i) => i.product_id).filter((id): id is string => !!id))]
+  if (productIds.length === 0) return null
+
+  const region = await getDefaultRegion()
+  const { products } = await sdk.store.product.list({
+    id: productIds,
+    region_id: region?.id,
+    fields: "id,+variants.inventory_quantity",
+    limit: productIds.length,
+  })
+
+  const variantAvailable = new Map<string, number>()
+  for (const product of products) {
+    for (const variant of product.variants ?? []) {
+      if (variant.id && variant.inventory_quantity != null) {
+        variantAvailable.set(variant.id, variant.inventory_quantity)
+      }
+    }
+  }
+
+  const groups = new Map<string, { label: string; demand: number; estimate: number }>()
+
+  // `inventory_items` isn't declared on StoreProductVariant's type, but is
+  // returned when requested via the `fields` param above.
+  type VariantWithInventory = HttpTypes.StoreProductVariant & {
+    inventory_items?: { inventory_item_id: string; required_quantity: number | null }[]
+  }
+
+  for (const item of items) {
+    const variant = item.variant as VariantWithInventory | undefined
+    const link = variant?.inventory_items?.[0]
+    const available = item.variant_id ? variantAvailable.get(item.variant_id) : undefined
+    if (!link || available == null) continue
+
+    const requiredQuantity = link.required_quantity ?? 1
+    // A lower bound on the true pool size: since the storefront-facing
+    // quantity is already floor(pool / required_quantity), multiplying
+    // back can only under-estimate the real pool, never over-estimate —
+    // so this check can produce a false block at the margin, but never
+    // a false pass that lets a real oversell through.
+    const estimate = available * requiredQuantity
+    const demand = item.quantity * requiredQuantity
+
+    const existing = groups.get(link.inventory_item_id)
+    if (existing) {
+      existing.demand += demand
+      existing.estimate = Math.max(existing.estimate, estimate)
+    } else {
+      groups.set(link.inventory_item_id, {
+        label: variant?.title ?? item.title,
+        demand,
+        estimate,
+      })
+    }
+  }
+
+  for (const group of groups.values()) {
+    if (group.demand > group.estimate) {
+      return group.label
+    }
+  }
+  return null
+}
+
 export async function completeCart(): Promise<HttpTypes.StoreCompleteCartResponse> {
   const cartId = await getCartId()
   if (!cartId) throw new Error("No active cart")
+
+  const oversoldColor = await findOversoldColor(cartId)
+  if (oversoldColor) {
+    const { cart } = await sdk.store.cart.retrieve(cartId, { fields: CART_FIELDS })
+    return {
+      type: "cart",
+      cart,
+      error: {
+        name: "insufficient_inventory",
+        type: "insufficient_inventory",
+        message: `Only limited ${oversoldColor} stock is left across your cart items — please reduce the quantity of ${oversoldColor} items before placing your order.`,
+      },
+    }
+  }
 
   const result = await sdk.store.cart.complete(cartId, {
     fields: "*items,*shipping_address",
