@@ -275,6 +275,18 @@ async function findOversoldColor(cartId: string): Promise<string | null> {
   return null
 }
 
+/**
+ * Checked before leaving the cart for checkout, so someone who's over
+ * the shared-color limit finds out immediately instead of after filling
+ * out their address and payment info. Returns the color name to flag,
+ * or null if the cart is fine to proceed with.
+ */
+export async function checkCartInventory(): Promise<string | null> {
+  const cartId = await getCartId()
+  if (!cartId) return null
+  return findOversoldColor(cartId)
+}
+
 export async function completeCart(): Promise<HttpTypes.StoreCompleteCartResponse> {
   const cartId = await getCartId()
   if (!cartId) throw new Error("No active cart")

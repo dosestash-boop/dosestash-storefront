@@ -1,9 +1,10 @@
 "use client"
 
-import { useEffect } from "react"
+import { useEffect, useState, useTransition } from "react"
 import Image from "next/image"
-import Link from "next/link"
+import { useRouter } from "next/navigation"
 import { useCart } from "./cart-context"
+import { checkCartInventory } from "@/lib/data/cart"
 import { formatPrice } from "@/lib/format-price"
 import { ProductArtPlaceholder } from "@/components/product-art-placeholder"
 
@@ -17,6 +18,24 @@ export function CartDrawer() {
     updateItem,
     removeItem,
   } = useCart()
+  const router = useRouter()
+  const [checkoutError, setCheckoutError] = useState<string | null>(null)
+  const [isCheckingOut, startCheckoutTransition] = useTransition()
+
+  const handleCheckout = () => {
+    setCheckoutError(null)
+    startCheckoutTransition(async () => {
+      const oversoldColor = await checkCartInventory()
+      if (oversoldColor) {
+        setCheckoutError(
+          `You have too many ${oversoldColor} items in your cart — reduce the quantity before checking out.`
+        )
+        return
+      }
+      closeCart()
+      router.push("/checkout")
+    })
+  }
 
   useEffect(() => {
     if (!isOpen) return
@@ -87,12 +106,12 @@ export function CartDrawer() {
           </button>
         </div>
 
-        {cartError && (
+        {(cartError || checkoutError) && (
           <p
             role="alert"
             className="border-b border-amber-100 bg-amber-50 px-5 py-3 text-sm text-amber-800"
           >
-            {cartError}
+            {cartError || checkoutError}
           </p>
         )}
 
@@ -156,9 +175,10 @@ export function CartDrawer() {
                         type="button"
                         aria-label={`Decrease quantity of ${item.title}`}
                         disabled={isPending || item.quantity <= 1}
-                        onClick={() =>
+                        onClick={() => {
+                          setCheckoutError(null)
                           updateItem(item.id, item.quantity - 1)
-                        }
+                        }}
                         className="flex h-9 w-9 items-center justify-center text-gray-600 disabled:opacity-30"
                       >
                         &minus;
@@ -170,9 +190,10 @@ export function CartDrawer() {
                         type="button"
                         aria-label={`Increase quantity of ${item.title}`}
                         disabled={isPending}
-                        onClick={() =>
+                        onClick={() => {
+                          setCheckoutError(null)
                           updateItem(item.id, item.quantity + 1)
-                        }
+                        }}
                         className="flex h-9 w-9 items-center justify-center text-gray-600 disabled:opacity-30"
                       >
                         +
@@ -182,7 +203,10 @@ export function CartDrawer() {
                     <button
                       type="button"
                       disabled={isPending}
-                      onClick={() => removeItem(item.id)}
+                      onClick={() => {
+                        setCheckoutError(null)
+                        removeItem(item.id)
+                      }}
                       className="text-xs font-medium text-gray-500 underline-offset-2 hover:text-gray-900 hover:underline disabled:opacity-30"
                     >
                       Remove
@@ -201,13 +225,14 @@ export function CartDrawer() {
               <span>Subtotal</span>
               <span>{formatPrice(cart?.item_subtotal ?? 0, currencyCode)}</span>
             </div>
-            <Link
-              href="/checkout"
-              onClick={closeCart}
-              className="mt-3 flex min-h-11 w-full items-center justify-center rounded-md bg-accent px-6 text-sm font-bold text-accent-foreground transition-colors hover:bg-accent/90"
+            <button
+              type="button"
+              onClick={handleCheckout}
+              disabled={isCheckingOut}
+              className="mt-3 flex min-h-11 w-full items-center justify-center rounded-md bg-accent px-6 text-sm font-bold text-accent-foreground transition-colors hover:bg-accent/90 disabled:cursor-not-allowed disabled:opacity-60"
             >
-              Checkout
-            </Link>
+              {isCheckingOut ? "Checking…" : "Checkout"}
+            </button>
           </div>
         )}
       </div>
